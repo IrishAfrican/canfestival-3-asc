@@ -21,8 +21,8 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 
-CC = SUB_CC
-PROG_CFLAGS = SUB_PROG_CFLAGS
+CC = arm-none-eabi-gcc
+PROG_CFLAGS =  -fPIC
 
 FP_FLAGS	?= -msoft-float
 ARCH_FLAGS	= -mthumb -mcpu=cortex-m3 $(FP_FLAGS) -mfix-cortex-m3-ldrd

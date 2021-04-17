@@ -98,3 +98,5 @@ glob:examples/TestMasterMicroMod/TestMaster.c
 
 .history
 .vscode
+*.o
+*.pyc

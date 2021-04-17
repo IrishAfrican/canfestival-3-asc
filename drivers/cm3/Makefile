@@ -21,27 +21,25 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 # 
 
-CC = SUB_CC
-PROG_CFLAGS = SUB_PROG_CFLAGS
+CC = arm-none-eabi-gcc
+PROG_CFLAGS =  -fPIC
 
-FP_FLAGS	?= -msoft-float
-ARCH_FLAGS	= -mthumb -mcpu=cortex-m3 $(FP_FLAGS) -mfix-cortex-m3-ldrd
-
-LIB_ROOT = ../../
+LIB_ROOT = ../../include/cm3/stlib
 
 INCLUDES = -I../../include \
-		   -I../../include/cm3_rtos \
-           -I$(LIB_ROOT)/libopencm3/include/ \
-		   -I./rtos \
+		   -I../../include/cm3 \
+           -I$(LIB_ROOT)/STM32F10x_StdPeriph_Driver/inc \
+           -I$(LIB_ROOT)/CMSIS/CM3/DeviceSupport/ST/STM32F10x/ \
+           -I$(LIB_ROOT)/CMSIS/CM3/CoreSupport/ \
 		   -I.
 
 # For medium density F103           
-DEFINES = -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER
+# DEFINES = -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER
 
 # For Connectivity line F105, external clock with 8Mhz crystal
-#DEFINES = -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=8000000ul
+DEFINES = -DSTM32F10X_CL -DUSE_STDPERIPH_DRIVER -DHSE_VALUE=8000000ul
 
-CFLAGS = $(PROG_CFLAGS) $(ARCH_FLAGS) $(DEFINES)
+CFLAGS = $(PROG_CFLAGS) $(DEFINES)
 
 OBJS = cm3.o 
 
@@ -66,7 +64,6 @@ libcandriver.a: $(OBJS)
 
 clean:
 	rm -f $(OBJS)
-	rm -f $(LIB_ROOT)bin/libcanfestival.a
-	rm -f $(LIB_ROOT)bin/libcandriver.a
 
 mrproper: clean
+

@@ -739,8 +739,8 @@ class NodeInfosDialog(wx.Dialog):
     def __init__(self, parent):
         self._init_ctrls(parent)
         
-        self.staticText2.Hide()
-        self.NodeID.Hide()
+        # self.staticText2.Hide()
+        # self.NodeID.Hide()
         
         for node_type in GetNodeTypes():
             self.Type.Append(_(node_type))
@@ -998,10 +998,10 @@ class CreateNodeDialog(wx.Dialog):
     def __init__(self, parent,buttons=wx.OK|wx.CANCEL):
         self._init_ctrls(parent,buttons)
         
-        self.staticText3.Hide()
-        self.NodeID.Hide()
+        # self.staticText3.Hide()
+        # self.NodeID.Hide()
         
-        self.NodeID.SetValue("0x00")
+        self.NodeID.SetValue("0xFF")
         for node_type in GetNodeTypes():
             self.Type.Append(_(node_type))
         self.Type.SetStringSelection(_("slave"))

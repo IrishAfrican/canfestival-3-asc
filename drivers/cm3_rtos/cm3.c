@@ -69,7 +69,7 @@ void initTimer(void) {
  *********************************************************************/
 void setTimer(TIMEVAL value)
 {
-	rcc_periph_clock_enable(RCC_TIM3);				// Need TIM3 clock
+	// rcc_periph_clock_enable(RCC_TIM3);				// Need TIM3 clock
 	timer_disable_counter(TIM3);
   	uint32_t timer = timer_get_counter(TIM3);        // Copy the value of the running timer
 	elapsed_time += timer - last_counter_val;
