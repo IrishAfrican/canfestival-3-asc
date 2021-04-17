@@ -62,47 +62,47 @@ def GetValidTypeInfos(typename, items=[]):
         if result:
             values = result.groups()
             if values[0] == "UNSIGNED" and int(values[1]) in [i * 8 for i in range(1, 9)]:
-                typeinfos = ("UNS%s"%values[1], None, "CANopen_TYPE_uint%s"%values[1], True)
+                typeinfos = ("UNS%s"%values[1], None, "uint%s"%values[1], True)
             elif values[0] == "INTEGER" and int(values[1]) in [i * 8 for i in range(1, 9)]:
-                typeinfos = ("INTEGER%s"%values[1], None, "CANopen_TYPE_int%s"%values[1], False)
+                typeinfos = ("INTEGER%s"%values[1], None, "int%s"%values[1], False)
             elif values[0] == "REAL" and int(values[1]) in (32, 64):
-                typeinfos = ("%s%s"%(values[0], values[1]), None, "CANopen_TYPE_real%s"%values[1], False)
+                typeinfos = ("%s%s"%(values[0], values[1]), None, "real%s"%values[1], False)
             elif values[0] in ["VISIBLE_STRING", "OCTET_STRING"]:
                 size = default_string_size
                 for item in items:
                     size = max(size, len(item))
                 if values[1] != "":
                     size = max(size, int(values[1]))
-                typeinfos = ("UNS8", size, "CANopen_TYPE_visible_string", False)
+                typeinfos = ("UNS8", size, "visible_string", False)
             elif values[0] == "DOMAIN":
                 size = 0
                 for item in items:
                     size = max(size, len(item))
-                typeinfos = ("UNS8", size, "CANopen_TYPE_domain", False)
+                typeinfos = ("UNS8", size, "domain", False)
             elif values[0] == "BOOLEAN":
-                typeinfos = ("UNS8", None, "CANopen_TYPE_boolean", False)
+                typeinfos = ("UNS8", None, "boolean", False)
             else:
                 raise ValueError(_("""!!! %s isn't a valid type for CanFestival.""")%typename)
-            if typeinfos[2] not in ["CANopen_TYPE_visible_string", "CANopen_TYPE_domain"]:
+            if typeinfos[2] not in ["visible_string", "domain"]:
                 internal_types[typename] = typeinfos
         else:
             raise ValueError(_("""!!! %s isn't a valid type for CanFestival.""")%typename)
     return typeinfos
 
 def ComputeValue(type, value):
-    if type == "CANopen_TYPE_visible_string":
-        return "\"%s\""%value, ""
-    elif type == "CANopen_TYPE_domain":
-        return "\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value]), ""
+    if type == "visible_string":
+        return "(UNS8*)\"%s\""%value, ""
+    elif type == "domain":
+        return "(UNS8*)\"%s\""%''.join(["\\x%2.2x"%ord(char) for char in value]), ""
     elif type.startswith("real"):
         return "%f"%value, ""
     else:
         return "0x%X"%value, "\t/* %s */"%str(value)
 
 def WriteFile(filepath, content):
-    cppfile = open(filepath,"w")
-    cppfile.write(content)
-    cppfile.close()
+    cfile = open(filepath,"w")
+    cfile.write(content)
+    cfile.close()
 
 def GetTypeName(Node, typenumber):
     typename = Node.GetTypeName(typenumber)
@@ -143,7 +143,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
 #-------------------------------------------------------------------------------    
     
     valueRangeContent = ""
-    strDefine = "\n#define valueRange_EMC 0x24 /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */"
+    strDefine = "\n#define valueRange_EMC 0x9F /* Type for index 0x1003 subindex 0x00 (only set of value 0 is possible) */"
     strSwitch = """    case valueRange_EMC:
       if (*(UNS8*)value != (UNS8)0) return OD_VALUE_RANGE_EXCEEDED;
       break;\n"""
@@ -335,9 +335,9 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                     name = FormatName("%s_%s"%(entry_infos["name"],subentry_infos["name"]))
                 else:
                     name = "%s_obj%04X_%s"%(texts["NodeName"], texts["index"], FormatName(subentry_infos["name"]))
-            if typeinfos[2] == "CANopen_TYPE_visible_string":
+            if typeinfos[2] == "visible_string":
                 sizeof = str(max(len(values[subIndex]), default_string_size))
-            elif typeinfos[2] == "CANopen_TYPE_domain":
+            elif typeinfos[2] == "domain":
                 sizeof = str(len(values[subIndex]))
             else:
                 sizeof = "sizeof (%s)"%typeinfos[0]
@@ -346,8 +346,7 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
                 save = "|TO_BE_SAVE"
             else:
                 save = ""
-#            strIndex += "                       { %s%s, %s, %s, (void*)&%s }%s\n"%(subentry_infos["access"].upper(),save,typeinfos[2],sizeof,UnDigitName(name),sep)
-            strIndex += "                       { %s%s, %s, (void*)&%s }%s\n"%(subentry_infos["access"].upper(),save,typeinfos[2],UnDigitName(name),sep)
+            strIndex += "                       { %s%s, %s, %s, (void*)&%s }%s\n"%(subentry_infos["access"].upper(),save,typeinfos[2],sizeof,UnDigitName(name),sep)
             pointer_name = pointers_dict.get((index, subIndex), None)
             if pointer_name is not None:
                 pointedVariableContent += "%s* %s = &%s;\n"%(typeinfos[0], pointer_name, name)
@@ -447,10 +446,8 @@ def GenerateFileContent(Node, headerfilepath, pointers_dict = {}):
     maxPDOtransmit = 0
     for i, index in enumerate(listIndex):
         texts["index"] = index
-#        strDeclareIndex += "  { (subindex*)%(NodeName)s_Index%(index)04X,sizeof(%(NodeName)s_Index%(index)04X)/sizeof(%(NodeName)s_Index%(index)04X[0]), 0x%(index)04X},\n"%texts
-        strDeclareIndex += "  { (subindex*)%(NodeName)s_Index%(index)04X,sizeof(%(NodeName)s_Index%(index)04X)/sizeof(%(NodeName)s_Index%(index)04X[0])},\n"%texts
-        texts["indexCallback"]= indexCallbacks[index]
-        strDeclareSwitch += "		case 0x%(index)04X: si = %(NodeName)s_Index%(index)04X; *size= sizeof(%(NodeName)s_Index%(index)04X)/sizeof(%(NodeName)s_Index%(index)04X[0]); %(indexCallback)sbreak;\n"%texts
+        strDeclareIndex += "  { (subindex*)%(NodeName)s_Index%(index)04X,sizeof(%(NodeName)s_Index%(index)04X)/sizeof(%(NodeName)s_Index%(index)04X[0]), 0x%(index)04X},\n"%texts
+        strDeclareSwitch += "		case 0x%04X: i = %d;%sbreak;\n"%(index, i, indexCallbacks[index])
         for cat, idx_min, idx_max in categories:
             if idx_min <= index <= idx_max:
                 quick_index["lastIndex"][cat] = i
@@ -529,18 +526,25 @@ $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 """ + pointedVariableContent
 
     fileContent += """
-const subindex * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS8 *size, ODCallback_t **callbacks)
+const indextable %(NodeName)s_objdict[] = 
+{
+"""%texts
+    fileContent += strDeclareIndex
+    fileContent += """};
+
+const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks)
 {
 	int i;
 	*callbacks = NULL;
-	subindex *si= NULL;
 	switch(wIndex){
 """%texts
     fileContent += strDeclareSwitch
     fileContent += """		default:
+			*errorCode = OD_NO_SUCH_OBJECT;
 			return NULL;
 	}
-	return si;
+	*errorCode = OD_SUCCESSFUL;
+	return &%(NodeName)s_objdict[i];
 }
 
 /* 
@@ -553,13 +557,11 @@ s_PDO_status %(NodeName)s_PDO_status[%(maxPDOtransmit)d] = {"""%texts
     fileContent += ",".join(["s_PDO_status_Initializer"]*texts["maxPDOtransmit"]) + """};
 """
 
+    fileContent += strQuickIndex
     fileContent += """
-CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
+const UNS16 %(NodeName)s_ObjdictSize = sizeof(%(NodeName)s_objdict)/sizeof(%(NodeName)s_objdict[0]); 
 
-UNS8 ObjDict_DataSize(const subindex *s) {
-  if(s->bDataType==valueRange_EMC) return 1;
-  else return 0;
-}
+CO_Data %(NodeName)s_Data = CANOPEN_NODE_DATA_INITIALIZER(%(NodeName)s);
 
 """%texts
 
@@ -576,7 +578,7 @@ UNS8 ObjDict_DataSize(const subindex *s) {
 
 /* Prototypes of function provided by object dictionnary */
 UNS32 %(NodeName)s_valueRangeTest (UNS8 typeValue, void * value);
-const subindex * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS8 *size, ODCallback_t **callbacks);
+const indextable * %(NodeName)s_scanIndexOD (UNS16 wIndex, UNS32 * errorCode, ODCallback_t **callbacks);
 
 /* Master node data struct */
 extern CO_Data %(NodeName)s_Data;
@@ -600,4 +602,3 @@ def GenerateFile(filepath, node, pointers_dict = {}):
         return None
     except ValueError as message:
         return _("Unable to Generate C File\n%s")%message
-
