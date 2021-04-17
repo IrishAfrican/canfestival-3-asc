@@ -82,7 +82,7 @@ from doc_index.DS301_index import *
 try:
     import wx.html
 
-    EVT_HTML_URL_CLICK = wx.NewId()
+    EVT_HTML_URL_CLICK = wx.NewIdRef()
 
     class HtmlWindowUrlClick(wx.PyEvent):
         def __init__(self, linkinfo):
@@ -98,7 +98,7 @@ try:
         def OnLinkClicked(self, linkinfo):
             wx.PostEvent(self, HtmlWindowUrlClick(linkinfo))
         
-        def Bind(self, event, handler, source=None, id=wx.NewId(), id2=wx.NewId()):
+        def Bind(self, event, handler, source=None, id=wx.NewIdRef(), id2=wx.NewIdRef()):
             if event == HtmlWindowUrlClick:
                 self.Connect(-1, -1, EVT_HTML_URL_CLICK, handler)
             else:
@@ -108,7 +108,7 @@ try:
 #                                Html Frame
 #-------------------------------------------------------------------------------
 
-    [ID_HTMLFRAME, ID_HTMLFRAMEHTMLCONTENT] = [wx.NewId() for _init_ctrls in range(2)]
+    [ID_HTMLFRAME, ID_HTMLFRAMEHTMLCONTENT] = [wx.NewIdRef() for _init_ctrls in range(2)]
 
     class HtmlFrame(wx.Frame):
         def _init_ctrls(self, prnt):
@@ -151,20 +151,20 @@ except:
 
 [ID_OBJDICTEDIT, ID_OBJDICTEDITFILEOPENED, 
  ID_OBJDICTEDITHELPBAR,
-] = [wx.NewId() for _init_ctrls in range(3)]
+] = [wx.NewIdRef() for _init_ctrls in range(3)]
 
 [ID_OBJDICTEDITFILEMENUIMPORTEDS, ID_OBJDICTEDITFILEMENUEXPORTEDS, 
  ID_OBJDICTEDITFILEMENUEXPORTC,
-] = [wx.NewId() for _init_coll_FileMenu_Items in range(3)]
+] = [wx.NewIdRef() for _init_coll_FileMenu_Items in range(3)]
 
 [ID_OBJDICTEDITEDITMENUNODEINFOS, ID_OBJDICTEDITEDITMENUDS301PROFILE, 
  ID_OBJDICTEDITEDITMENUDS302PROFILE, ID_OBJDICTEDITEDITMENUOTHERPROFILE, 
-] = [wx.NewId() for _init_coll_EditMenu_Items in range(4)]
+] = [wx.NewIdRef() for _init_coll_EditMenu_Items in range(4)]
 
 [ID_OBJDICTEDITADDMENUSDOSERVER, ID_OBJDICTEDITADDMENUSDOCLIENT, 
  ID_OBJDICTEDITADDMENUPDOTRANSMIT, ID_OBJDICTEDITADDMENUPDORECEIVE, 
  ID_OBJDICTEDITADDMENUMAPVARIABLE, ID_OBJDICTEDITADDMENUUSERTYPE, 
-] = [wx.NewId() for _init_coll_AddMenu_Items in range(6)]
+] = [wx.NewIdRef() for _init_coll_AddMenu_Items in range(6)]
 
 class objdictedit(wx.Frame, NodeEditorTemplate):
     
