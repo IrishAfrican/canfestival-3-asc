@@ -21,7 +21,7 @@
 #License along with this library; if not, write to the Free Software
 #Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-import cPickle
+import pickle
 from types import *
 import re
 
@@ -38,7 +38,7 @@ CustomisableTypes = [(0x02, 0), (0x03, 0), (0x04, 0), (0x05, 0), (0x06, 0), (0x0
     (0x13, 0), (0x14, 0), (0x15, 0), (0x16, 0), (0x18, 0), (0x19, 0), (0x1A, 0),
     (0x1B, 0)]
 
-DefaultParams = {"comment" : "", "save" : False, "buffer_size" : ""}
+DefaultParams = {"comment" : "", "save" : False}
 
 #-------------------------------------------------------------------------------
 #                      Dictionary Mapping and Organisation
@@ -108,7 +108,7 @@ MappingDictionary = {
                 [{"name" : "Number of Errors", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Standard Error Field", "type" : 0x07, "access" : 'ro', "pdo" : False, "nbmin" : 1, "nbmax" : 0xFE}]},
     0x1005 : {"name" : "SYNC COB ID", "struct" : var, "need" : False, "callback" : True, "values" :
-                [{"name" : "SYNC COB ID", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "SYNC COB ID", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1006 : {"name" : "Communication / Cycle Period", "struct" : var, "need" : False, "callback" : True, "values" :
                 [{"name" : "Communication Cycle Period", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
     0x1007 : {"name" : "Synchronous Window Length", "struct" : var, "need" : False, "values" :
@@ -136,11 +136,11 @@ MappingDictionary = {
                  {"name" : "Restore Application Default Parameters", "type" : 0x07, "access" : 'rw', "pdo" : False},
                  {"name" : "Restore Manufacturer Defined Default Parameters %d[(sub - 3)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmax" : 0x7C}]},
     0x1012 : {"name" : "TIME COB ID", "struct" : var, "need" : False, "values" :
-                [{"name" : "TIME COB ID", "type" : 0x07, "access" : 'rw', "pdo" : False}]},
+                [{"name" : "TIME COB ID", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1013 : {"name" : "High Resolution Timestamp", "struct" : var, "need" : False, "values" :
                 [{"name" : "High Resolution Time Stamp", "type" : 0x07, "access" : 'rw', "pdo" : True}]},
     0x1014 : {"name" : "Emergency COB ID", "struct" : var, "need" : False, "values" :
-                [{"name" : "Emergency COB ID", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "\"$NODEID+0x80\""}]},
+                [{"name" : "Emergency COB ID", "type" : 0x06, "access" : 'rw', "pdo" : False, "default" : "\"$NODEID+0x80\""}]},
     0x1015 : {"name" : "Inhibit Time Emergency", "struct" : var, "need" : False, "values" :
                 [{"name" : "Inhibit Time Emergency", "type" : 0x06, "access" : 'rw', "pdo" : False}]},
     0x1016 : {"name" : "Consumer Heartbeat Time", "struct" : rec, "need" : False, "values" :
@@ -193,21 +193,21 @@ MappingDictionary = {
                  {"name" : "Device Profile", "type" : 0x05, "access" : 'rw', "pdo" : False, "nbmax" : 0xFE}]},
     0x1200 : {"name" : "Server SDO Parameter", "struct" : array, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID Client to Server (Receive SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False, "default" : "\"$NODEID+0x600\""},
-                 {"name" : "COB ID Server to Client (Transmit SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False, "default" : "\"$NODEID+0x580\""}]},
+                 {"name" : "COB ID Client to Server (Receive SDO)", "type" : 0x06, "access" : 'ro', "pdo" : False, "default" : "\"$NODEID+0x600\""},
+                 {"name" : "COB ID Server to Client (Transmit SDO)", "type" : 0x06, "access" : 'ro', "pdo" : False, "default" : "\"$NODEID+0x580\""}]},
     0x1201 : {"name" : "Additional Server SDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x7F, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID Client to Server (Receive SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID Server to Client (Transmit SDO)", "type" : 0x07, "access" : 'ro', "pdo" : False},
+                 {"name" : "COB ID Client to Server (Receive SDO)", "type" : 0x06, "access" : 'ro', "pdo" : False},
+                 {"name" : "COB ID Server to Client (Transmit SDO)", "type" : 0x06, "access" : 'ro', "pdo" : False},
                  {"name" : "Node ID of the SDO Client", "type" : 0x05, "access" : 'ro', "pdo" : False}]},
     0x1280 : {"name" : "Client SDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x100, "need" : False, "values" :
                 [{"name" : "Number of Entries", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID Client to Server (Transmit SDO)", "type" : 0x07, "access" : 'rw', "pdo" : False},
-                 {"name" : "COB ID Server to Client (Receive SDO)", "type" : 0x07, "access" : 'rw', "pdo" : False},
+                 {"name" : "COB ID Client to Server (Transmit SDO)", "type" : 0x06, "access" : 'rw', "pdo" : False},
+                 {"name" : "COB ID Server to Client (Receive SDO)", "type" : 0x06, "access" : 'rw', "pdo" : False},
                  {"name" : "Node ID of the SDO Server", "type" : 0x05, "access" : 'rw', "pdo" : False}]},
     0x1400 : {"name" : "Receive PDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x200, "need" : False, "values" :
                 [{"name" : "Highest SubIndex Supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "{True:\"$NODEID+0x%X00\"%(base+2),False:0x80000000}[base<4]"},
+                 {"name" : "COB ID used by PDO", "type" : 0x06, "access" : 'rw', "pdo" : False, "default" : "{True:\"$NODEID+0x%X00\"%(base+2),False:0x80000000}[base<4]"},
                  {"name" : "Transmission Type", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Inhibit Time", "type" : 0x06, "access" : 'rw', "pdo" : False},
                  {"name" : "Compatibility Entry", "type" : 0x05, "access" : 'rw', "pdo" : False},
@@ -218,7 +218,7 @@ MappingDictionary = {
                  {"name" : "PDO %d Mapping for an application object %d[(idx,sub)]", "type" : 0x07, "access" : 'rw', "pdo" : False, "nbmin" : 0, "nbmax" : 0x40}]},
     0x1800 : {"name" : "Transmit PDO %d Parameter[(idx)]", "struct" : pluriarray, "incr" : 1, "nbmax" : 0x200, "need" : False, "callback" : True, "values" :
                 [{"name" : "Highest SubIndex Supported", "type" : 0x05, "access" : 'ro', "pdo" : False},
-                 {"name" : "COB ID used by PDO", "type" : 0x07, "access" : 'rw', "pdo" : False, "default" : "{True:\"$NODEID+0x%X80\"%(base+1),False:0x80000000}[base<4]"},
+                 {"name" : "COB ID used by PDO", "type" : 0x06, "access" : 'rw', "pdo" : False, "default" : "{True:\"$NODEID+0x%X80\"%(base+1),False:0x80000000}[base<4]"},
                  {"name" : "Transmission Type", "type" : 0x05, "access" : 'rw', "pdo" : False},
                  {"name" : "Inhibit Time", "type" : 0x06, "access" : 'rw', "pdo" : False},
                  {"name" : "Compatibility Entry", "type" : 0x05, "access" : 'rw', "pdo" : False},
@@ -238,7 +238,7 @@ Return the index of the typename given by searching in mappingdictionary
 """
 def FindTypeIndex(typename, mappingdictionary):
     testdic = {}
-    for index, values in mappingdictionary.iteritems():
+    for index, values in mappingdictionary.items():
         if index < 0x1000:
             testdic[values["name"]] = index
     if typename in testdic:
@@ -265,11 +265,11 @@ def FindTypeDefaultValue(typeindex, mappingdictionary):
 Return the list of types defined in mappingdictionary 
 """
 def FindTypeList(mappingdictionary):
-    list = []
-    for index in mappingdictionary.keys():
+    alist = []
+    for index in list(mappingdictionary.keys()):
         if index < 0x1000:
-            list.append(mappingdictionary[index]["name"])
-    return list
+            alist.append(mappingdictionary[index]["name"])
+    return alist
 
 """
 Return the name of an entry by searching in mappingdictionary 
@@ -340,7 +340,7 @@ Return the list of variables that can be mapped defined in mappingdictionary
 """
 def FindMapVariableList(mappingdictionary, Node, compute=True):
     list = []
-    for index in mappingdictionary.iterkeys():
+    for index in mappingdictionary.keys():
         if Node.IsEntry(index):
             for subIndex, values in enumerate(mappingdictionary[index]["values"]):
                 if mappingdictionary[index]["values"][subIndex]["pdo"]:
@@ -348,7 +348,7 @@ def FindMapVariableList(mappingdictionary, Node, compute=True):
                     name = mappingdictionary[index]["values"][subIndex]["name"]
                     if mappingdictionary[index]["struct"] & OD_IdenticalSubindexes:
                         values = Node.GetEntry(index)
-                        for i in xrange(len(values) - 1):
+                        for i in range(len(values) - 1):
                             computed_name = name
                             if compute:
                                 computed_name = StringFormat(computed_name, 1, i + 1)
@@ -365,7 +365,7 @@ Return the list of mandatory indexes defined in mappingdictionary
 """
 def FindMandatoryIndexes(mappingdictionary):
     list = []
-    for index in mappingdictionary.iterkeys():
+    for index in mappingdictionary.keys():
         if index >= 0x1000 and mappingdictionary[index]["need"]:
             list.append(index)
     return list
@@ -378,7 +378,7 @@ def FindIndex(index, mappingdictionary):
     if index in mappingdictionary:
         return index
     else:
-        listpluri = [idx for idx in mappingdictionary.keys() if mappingdictionary[idx]["struct"] & OD_IdenticalIndexes]
+        listpluri = [idx for idx in list(mappingdictionary.keys()) if mappingdictionary[idx]["struct"] & OD_IdenticalIndexes]
         listpluri.sort()
         for idx in listpluri:
             nb_max = mappingdictionary[idx]["nbmax"]
@@ -568,7 +568,7 @@ class Node:
             elif subIndex == 1:
                 self.Dictionary[index] = [value]
                 return True
-        elif subIndex > 0 and type(self.Dictionary[index]) == ListType and subIndex == len(self.Dictionary[index]) + 1:
+        elif subIndex > 0 and type(self.Dictionary[index]) == list and subIndex == len(self.Dictionary[index]) + 1:
             self.Dictionary[index].append(value)
             return True
         return False
@@ -582,35 +582,31 @@ class Node:
                 if value != None:
                     self.Dictionary[index] = value
                 return True
-            elif type(self.Dictionary[index]) == ListType and 0 < subIndex <= len(self.Dictionary[index]):
+            elif type(self.Dictionary[index]) == list and 0 < subIndex <= len(self.Dictionary[index]):
                 if value != None:
                     self.Dictionary[index][subIndex - 1] = value
                 return True
         return False
     
-    def SetParamsEntry(self, index, subIndex = None, comment = None, buffer_size = None, save = None, callback = None):
+    def SetParamsEntry(self, index, subIndex = None, comment = None, save = None, callback = None):
         if not getattr(self, "ParamsDictionary", False):
             self.ParamsDictionary = {}
         if index in self.Dictionary:
-            if (comment != None or save != None or callback != None or buffer_size != None) and index not in self.ParamsDictionary:
+            if (comment != None or save != None or callback != None) and index not in self.ParamsDictionary:
                 self.ParamsDictionary[index] = {}
-            if subIndex == None or type(self.Dictionary[index]) != ListType and subIndex == 0:
+            if subIndex == None or type(self.Dictionary[index]) != list and subIndex == 0:
                 if comment != None:
                     self.ParamsDictionary[index]["comment"] = comment
-		if buffer_size != None:
-                    self.ParamsDictionary[index]["buffer_size"] = buffer_size
                 if save != None:
                     self.ParamsDictionary[index]["save"] = save
                 if callback != None:
                     self.ParamsDictionary[index]["callback"] = callback
                 return True
-            elif type(self.Dictionary[index]) == ListType and 0 <= subIndex <= len(self.Dictionary[index]):
-                if (comment != None or save != None or callback != None or buffer_size != None) and subIndex not in self.ParamsDictionary[index]:
+            elif type(self.Dictionary[index]) == list and 0 <= subIndex <= len(self.Dictionary[index]):
+                if (comment != None or save != None or callback != None) and subIndex not in self.ParamsDictionary[index]:
                     self.ParamsDictionary[index][subIndex] = {}
                 if comment != None:
                     self.ParamsDictionary[index][subIndex]["comment"] = comment
-		if buffer_size != None:
-                    self.ParamsDictionary[index][subIndex]["buffer_size"] = buffer_size
                 if save != None:
                     self.ParamsDictionary[index][subIndex]["save"] = save
                 return True
@@ -630,7 +626,7 @@ class Node:
                 if index in self.ParamsDictionary:
                     self.ParamsDictionary.pop(index)
                 return True
-            elif type(self.Dictionary[index]) == ListType and subIndex == len(self.Dictionary[index]):
+            elif type(self.Dictionary[index]) == list and subIndex == len(self.Dictionary[index]):
                 self.Dictionary[index].pop(subIndex - 1)
                 if index in self.ParamsDictionary:
                     if subIndex in self.ParamsDictionary[index]:
@@ -661,7 +657,7 @@ class Node:
     def GetEntry(self, index, subIndex = None, compute = True):
         if index in self.Dictionary:
             if subIndex == None:
-                if type(self.Dictionary[index]) == ListType:
+                if type(self.Dictionary[index]) == list:
                     values = [len(self.Dictionary[index])]
                     for value in self.Dictionary[index]:
                         values.append(self.CompileValue(value, index, compute))
@@ -669,11 +665,11 @@ class Node:
                 else:
                     return self.CompileValue(self.Dictionary[index], index, compute)
             elif subIndex == 0:
-                if type(self.Dictionary[index]) == ListType:
+                if type(self.Dictionary[index]) == list:
                     return len(self.Dictionary[index])
                 else:
                     return self.CompileValue(self.Dictionary[index], index, compute)
-            elif type(self.Dictionary[index]) == ListType and 0 < subIndex <= len(self.Dictionary[index]):
+            elif type(self.Dictionary[index]) == list and 0 < subIndex <= len(self.Dictionary[index]):
                 return self.CompileValue(self.Dictionary[index][subIndex - 1], index, compute)
         return None
 
@@ -686,28 +682,28 @@ class Node:
             self.ParamsDictionary = {}
         if index in self.Dictionary:
             if subIndex == None:
-                if type(self.Dictionary[index]) == ListType:
+                if type(self.Dictionary[index]) == list:
                     if index in self.ParamsDictionary:
                         result = []
-                        for i in xrange(len(self.Dictionary[index]) + 1):
+                        for i in range(len(self.Dictionary[index]) + 1):
                             line = DefaultParams.copy()
                             if i in self.ParamsDictionary[index]:
                                 line.update(self.ParamsDictionary[index][i])
                             result.append(line)
                         return result
                     else:
-                        return [DefaultParams.copy() for i in xrange(len(self.Dictionary[index]) + 1)]
+                        return [DefaultParams.copy() for i in range(len(self.Dictionary[index]) + 1)]
                 else:
                     result = DefaultParams.copy()
                     if index in self.ParamsDictionary:
                         result.update(self.ParamsDictionary[index])
                     return result
-            elif subIndex == 0 and type(self.Dictionary[index]) != ListType:
+            elif subIndex == 0 and type(self.Dictionary[index]) != list:
                 result = DefaultParams.copy()
                 if index in self.ParamsDictionary:
                     result.update(self.ParamsDictionary[index])
                 return result
-            elif type(self.Dictionary[index]) == ListType and 0 <= subIndex <= len(self.Dictionary[index]):
+            elif type(self.Dictionary[index]) == list and 0 <= subIndex <= len(self.Dictionary[index]):
                 result = DefaultParams.copy()
                 if index in self.ParamsDictionary and subIndex in self.ParamsDictionary[index]:
                     result.update(self.ParamsDictionary[index][subIndex])
@@ -782,38 +778,38 @@ class Node:
             elif 0 <= subIndex < len(self.UserMapping[index]["values"]) and values != None:
                 if "type" in values:
                     if self.UserMapping[index]["struct"] & OD_IdenticalSubindexes:
-                        if self.IsStringType(self.UserMapping[index]["values"][subIndex]["type"]):
+                        if self.Isbytes(self.UserMapping[index]["values"][subIndex]["type"]):
                             if self.IsRealType(values["type"]):
-                                for i in xrange(len(self.Dictionary[index])):
+                                for i in range(len(self.Dictionary[index])):
                                     self.SetEntry(index, i + 1, 0.)
-                            elif not self.IsStringType(values["type"]):
-                                for i in xrange(len(self.Dictionary[index])):
+                            elif not self.Isbytes(values["type"]):
+                                for i in range(len(self.Dictionary[index])):
                                     self.SetEntry(index, i + 1, 0)
                         elif self.IsRealType(self.UserMapping[index]["values"][subIndex]["type"]):
-                            if self.IsStringType(values["type"]):
-                                for i in xrange(len(self.Dictionary[index])):
+                            if self.Isbytes(values["type"]):
+                                for i in range(len(self.Dictionary[index])):
                                     self.SetEntry(index, i + 1, "")
                             elif not self.IsRealType(values["type"]):
-                                for i in xrange(len(self.Dictionary[index])):
+                                for i in range(len(self.Dictionary[index])):
                                     self.SetEntry(index, i + 1, 0)
-                        elif self.IsStringType(values["type"]):
-                            for i in xrange(len(self.Dictionary[index])):
+                        elif self.Isbytes(values["type"]):
+                            for i in range(len(self.Dictionary[index])):
                                 self.SetEntry(index, i + 1, "")
                         elif self.IsRealType(values["type"]):
-                            for i in xrange(len(self.Dictionary[index])):
+                            for i in range(len(self.Dictionary[index])):
                                 self.SetEntry(index, i + 1, 0.)                        
                     else:
-                        if self.IsStringType(self.UserMapping[index]["values"][subIndex]["type"]):
+                        if self.Isbytes(self.UserMapping[index]["values"][subIndex]["type"]):
                             if self.IsRealType(values["type"]):
                                 self.SetEntry(index, subIndex, 0.)
-                            elif not self.IsStringType(values["type"]):
+                            elif not self.Isbytes(values["type"]):
                                 self.SetEntry(index, subIndex, 0)
                         elif self.IsRealType(self.UserMapping[index]["values"][subIndex]["type"]):
-                            if self.IsStringType(values["type"]):
+                            if self.Isbytes(values["type"]):
                                 self.SetEntry(index, subIndex, "")
                             elif not self.IsRealType(values["type"]):
                                 self.SetEntry(index, subIndex, 0)
-                        elif self.IsStringType(values["type"]):
+                        elif self.Isbytes(values["type"]):
                             self.SetEntry(index, subIndex, "")
                         elif self.IsRealType(values["type"]):
                             self.SetEntry(index, subIndex, 0.)
@@ -842,7 +838,7 @@ class Node:
         if subIndex:
             model += subIndex << 8
             mask += 0xFF << 8
-        for i in self.Dictionary.iterkeys():
+        for i in self.Dictionary.keys():
             if 0x1600 <= i <= 0x17FF or 0x1A00 <= i <= 0x1BFF:
                 for j,value in enumerate(self.Dictionary[i]):
                     if (value & mask) == model:
@@ -854,7 +850,7 @@ class Node:
         if subIndex:
             model += subIndex << 8
             mask = 0xFF << 8
-        for i in self.Dictionary.iterkeys():
+        for i in self.Dictionary.keys():
             if 0x1600 <= i <= 0x17FF or 0x1A00 <= i <= 0x1BFF:
                 for j,value in enumerate(self.Dictionary[i]):
                     if (value & mask) == model:
@@ -880,13 +876,13 @@ class Node:
     Return a copy of the node
     """
     def Copy(self):
-        return cPickle.loads(cPickle.dumps(self))
+        return pickle.loads(pickle.dumps(self))
 
     """
     Return a sorted list of indexes in Object Dictionary
     """
     def GetIndexes(self):
-        listindex = self.Dictionary.keys()
+        listindex = list(self.Dictionary.keys())
         listindex.sort()
         return listindex
 
@@ -894,16 +890,16 @@ class Node:
     Print the Dictionary values
     """
     def Print(self):
-        print self.PrintString()
+        print(self.PrintString())
     
     def PrintString(self):
         result = ""
-        listindex = self.Dictionary.keys()
+        listindex = list(self.Dictionary.keys())
         listindex.sort()
         for index in listindex:
             name = self.GetEntryName(index)
             values = self.Dictionary[index]
-            if isinstance(values, ListType):
+            if isinstance(values, list):
                 result += "%04X (%s):\n"%(index, name)
                 for subidx, value in enumerate(values):
                     subentry_infos = self.GetSubentryInfos(index, subidx + 1)
@@ -922,17 +918,17 @@ class Node:
                             value += (" %0"+"%d"%(size * 2)+"X")%BE_to_LE(data[i+7:i+7+size])
                             i += 7 + size
                             count += 1
-                    elif isinstance(value, IntType):
+                    elif isinstance(value, int):
                         value = "%X"%value
                     result += "%04X %02X (%s): %s\n"%(index, subidx+1, subentry_infos["name"], value)
             else:
-                if isinstance(values, IntType):
+                if isinstance(values, int):
                     values = "%X"%values
                 result += "%04X (%s): %s\n"%(index, name, values)
         return result
             
     def CompileValue(self, value, index, compute = True):
-        if isinstance(value, (StringType, UnicodeType)) and value.upper().find("$NODEID") != -1:
+        if isinstance(value, (bytes, str)) and value.upper().find("$NODEID") != -1:
             base = self.GetBaseIndex(index)
             try:
                 raw = eval(value)
@@ -1063,7 +1059,7 @@ class Node:
 #                            Type helper functions
 #-------------------------------------------------------------------------------
 
-    def IsStringType(self, index):
+    def Isbytes(self, index):
         if index in (0x9, 0xA, 0xB, 0xF):
             return True
         elif 0xA0 <= index < 0x100:
@@ -1157,7 +1153,7 @@ def LE_to_BE(value, size):
     """
     
     data = ("%" + str(size * 2) + "." + str(size * 2) + "X") % value
-    list_car = [data[i:i+2] for i in xrange(0, len(data), 2)]
+    list_car = [data[i:i+2] for i in range(0, len(data), 2)]
     list_car.reverse()
     return "".join([chr(int(car, 16)) for car in list_car])
 

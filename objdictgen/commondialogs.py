@@ -173,7 +173,7 @@ class CommunicationDialog(wx.Dialog):
         self.PossibleIndexes.Clear()
         self.CurrentIndexes.Clear()
         self.AllList = []
-        for index in self.IndexDictionary.iterkeys():
+        for index in self.IndexDictionary.keys():
             if index not in self.CurrentList:
                 self.AllList.append(index)
         self.AllList.sort()
@@ -333,7 +333,7 @@ class MapVariableDialog(wx.Dialog):
               size=wx.Size(0, 0), style=wx.TAB_TRAVERSAL)
         
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL)
-        self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.GetAffirmativeId)
+        self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.GetAffirmativeId())
         
         self._init_sizers()
 
@@ -580,7 +580,7 @@ class UserTypeDialog(wx.Dialog):
     def SetTypeList(self, typedic, type = None):
         self.Type.Clear()
         list = []
-        for index, (name, valuetype) in typedic.iteritems():
+        for index, (name, valuetype) in typedic.items():
             self.TypeDictionary[name] = (index, valuetype)
             list.append((index, name))
         list.sort()
@@ -674,7 +674,7 @@ class NodeInfosDialog(wx.Dialog):
 
     def _init_sizers(self):
         self.flexGridSizer1 = wx.FlexGridSizer(cols=1, hgap=0, rows=2, vgap=10)
-        #self.MainSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=8, vgap=5)
+        # self.MainSizer = wx.FlexGridSizer(rows=8, cols=1, vgap=5,hgap=0)
         self.MainSizer = wx.FlexGridSizer(cols=1, vgap=5,hgap=0)
         
         self._init_coll_flexGridSizer1_Items(self.flexGridSizer1)
@@ -687,9 +687,9 @@ class NodeInfosDialog(wx.Dialog):
     def _init_ctrls(self, prnt):
         wx.Dialog.__init__(self, id=ID_NODEINFOSDIALOG,
               name='NodeInfosDialog', parent=prnt, pos=wx.Point(376, 223),
-              size=wx.Size(300, 280), style=wx.DEFAULT_DIALOG_STYLE,
+              size=wx.Size(300, 380), style=wx.DEFAULT_DIALOG_STYLE,
               title=_('Node infos'))
-        self.SetClientSize(wx.Size(300, 280))
+        self.SetClientSize(wx.Size(300, 380))
 
         self.staticText1 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT1,
               label=_('Name:'), name='staticText1', parent=self,
@@ -1001,7 +1001,7 @@ class CreateNodeDialog(wx.Dialog):
         # self.staticText3.Hide()
         # self.NodeID.Hide()
         
-        self.NodeID.SetValue("0xFF")
+        self.NodeID.SetValue("0x00")
         for node_type in GetNodeTypes():
             self.Type.Append(_(node_type))
         self.Type.SetStringSelection(_("slave"))
@@ -1082,7 +1082,7 @@ class CreateNodeDialog(wx.Dialog):
 
     def OnProfileChoice(self, event):
         if self.Profile.GetStringSelection() == _("Other"):
-            dialog = wx.FileDialog(self, _("Choose a file"), self.Directory, "",  _("OD Profile files (*.prf)|*.prf|All files|*.*"), wx.FD_OPEN|wx.FD_CHANGE_DIR)
+            dialog = wx.FileDialog(self, _("Choose a file"), self.Directory, "",  _("OD Profile files (*.prf)|*.prf|All files|*.*"))
             dialog.ShowModal()
             filepath = dialog.GetPath()
             dialog.Destroy()
@@ -1240,7 +1240,8 @@ class AddSlaveDialog(wx.Dialog):
                                _("Choose an EDS file"),
                                os.path.expanduser("~"),
                                "",
-                               _("EDS files (*.eds)|*.eds|All files|*.*"), wx.FD_OPEN)
+                               _("EDS files (*.eds)|*.eds|All files|*.*"),
+                               )
         if dialog.ShowModal() == wx.ID_OK:
             filepath = dialog.GetPath()
         else:
@@ -1263,7 +1264,7 @@ class AddSlaveDialog(wx.Dialog):
     def RefreshEDSFile(self):
         selection = self.EDSFile.GetStringSelection()
         self.EDSFile.Clear()
-        for option in self.NodeList.EDSNodes.keys():
+        for option in list(self.NodeList.EDSNodes.keys()):
             self.EDSFile.Append(option)
         if self.EDSFile.FindString(selection) != wx.NOT_FOUND:
             self.EDSFile.SetStringSelection(selection)
@@ -1566,7 +1567,7 @@ class DCFEntryValuesDialog(wx.Dialog):
         if values != "":
             data = values[4:]
             current = 0
-            for i in xrange(BE_to_LE(values[:4])):
+            for i in range(BE_to_LE(values[:4])):
                 value = {}
                 value["Index"] = BE_to_LE(data[current:current+2])
                 value["Subindex"] = BE_to_LE(data[current+2:current+3])

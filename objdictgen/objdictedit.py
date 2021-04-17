@@ -30,8 +30,8 @@ __version__ = "$Revision: 1.48 $"
 
 if __name__ == '__main__':
     def usage():
-        print ("\nUsage of objdictedit.py :")
-        print "\n   %s [Filepath, ...]\n"%sys.argv[0]
+        print(_("\nUsage of objdictedit.py :"))
+        print("\n   %s [Filepath, ...]\n"%sys.argv[0])
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
@@ -51,7 +51,7 @@ ScriptDirectory = os.path.split(os.path.realpath(__file__))[0]
 
 # Import module for internationalization
 import gettext
-import __builtin__
+import builtins
 
 # Get folder containing translation files
 localedir = os.path.join(ScriptDirectory,"locale")
@@ -61,17 +61,17 @@ langid = wx.LANGUAGE_DEFAULT
 domain = "objdictgen"
 
 # Define locale for wx
-loc = __builtin__.__dict__.get('loc', None)
+loc = builtins.__dict__.get('loc', None)
 if loc is None:
     loc = wx.Locale(langid)
-    __builtin__.__dict__['loc'] = loc
+    builtins.__dict__['loc'] = loc
 # Define location for searching translation files
 loc.AddCatalogLookupPathPrefix(localedir)
 # Define locale domain
 loc.AddCatalog(domain)
 
 if __name__ == '__main__':
-    __builtin__.__dict__['_'] = wx.GetTranslation
+    builtins.__dict__['_'] = wx.GetTranslation
 
 from nodemanager import *
 from nodeeditortemplate import NodeEditorTemplate
@@ -98,7 +98,7 @@ try:
         def OnLinkClicked(self, linkinfo):
             wx.PostEvent(self, HtmlWindowUrlClick(linkinfo))
         
-        def Bind(self, event, handler, source=None, id=wx.ID_ANY, id2=wx.ID_ANY):
+        def Bind(self, event, handler, source=None, id=wx.NewId(), id2=wx.NewId()):
             if event == HtmlWindowUrlClick:
                 self.Connect(-1, -1, EVT_HTML_URL_CLICK, handler)
             else:
@@ -343,7 +343,7 @@ class objdictedit(wx.Frame, NodeEditorTemplate):
         if self.ModeSolo:
             for filepath in filesOpen:
                 result = self.Manager.OpenFileInCurrent(os.path.abspath(filepath))
-                if isinstance(result, (IntType, LongType)):
+                if isinstance(result, (int)):
                     new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                     new_editingpanel.SetIndex(result)
                     self.FileOpened.AddPage(new_editingpanel, "")
@@ -392,13 +392,13 @@ class objdictedit(wx.Frame, NodeEditorTemplate):
                 find_index = True
                 index, subIndex = result
                 result = OpenPDFDocIndex(index, ScriptDirectory)
-                if isinstance(result, (StringType, UnicodeType)):
+                if isinstance(result, (bytes, str)):
                     message = wx.MessageDialog(self, result, _("ERROR"), wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
         if not find_index:
             result = OpenPDFDocIndex(None, ScriptDirectory)
-            if isinstance(result, (StringType, UnicodeType)):
+            if isinstance(result, (bytes, str)):
                 message = wx.MessageDialog(self, result, _("ERROR"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
@@ -448,7 +448,7 @@ class objdictedit(wx.Frame, NodeEditorTemplate):
             answer = dialog.ShowModal()
             dialog.Destroy()
             if answer == wx.ID_YES:
-                for i in xrange(self.Manager.GetBufferNumber()):
+                for i in range(self.Manager.GetBufferNumber()):
                     if self.Manager.CurrentIsSaved():
                         self.Manager.CloseCurrent()
                     else:
@@ -542,7 +542,7 @@ class objdictedit(wx.Frame, NodeEditorTemplate):
             NMT = dialog.GetNMTManagement()
             options = dialog.GetOptions()
             result = self.Manager.CreateNewNode(name, id, nodetype, description, profile, filepath, NMT, options)
-            if isinstance(result, (IntType, LongType)):
+            if isinstance(result, (int)):
                 new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                 new_editingpanel.SetIndex(result)
                 self.FileOpened.AddPage(new_editingpanel, "")
@@ -565,12 +565,13 @@ class objdictedit(wx.Frame, NodeEditorTemplate):
             directory = os.path.dirname(filepath)
         else:
             directory = os.getcwd()
+        #dialog = wx.FileDialog(self, _("Choose a file"), directory, "",  _("OD files (*.od)|*.od|All files|*.*"), wx.OPEN|wx.CHANGE_DIR)
         dialog = wx.FileDialog(self, _("Choose a file"), directory, "",  _("OD files (*.od)|*.od|All files|*.*"), wx.FD_OPEN|wx.FD_CHANGE_DIR)
         if dialog.ShowModal() == wx.ID_OK:
             filepath = dialog.GetPath()
             if os.path.isfile(filepath):
                 result = self.Manager.OpenFileInCurrent(filepath)
-                if isinstance(result, (IntType, LongType)):
+                if isinstance(result, (int)):
                     new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                     new_editingpanel.SetIndex(result)
                     self.FileOpened.AddPage(new_editingpanel, "")
@@ -603,7 +604,7 @@ class objdictedit(wx.Frame, NodeEditorTemplate):
         result = self.Manager.SaveCurrentInFile()
         if not result:
             self.SaveAs()
-        elif not isinstance(result, (StringType, UnicodeType)):
+        elif not isinstance(result, (bytes, str)):
             self.RefreshBufferState()
         else:
             message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
@@ -621,7 +622,7 @@ class objdictedit(wx.Frame, NodeEditorTemplate):
             filepath = dialog.GetPath()
             if os.path.isdir(os.path.dirname(filepath)):
                 result = self.Manager.SaveCurrentInFile(filepath)
-                if not isinstance(result, (StringType, UnicodeType)):
+                if not isinstance(result, (bytes, str)):
                     self.RefreshBufferState()
                 else:
                     message = wx.MessageDialog(self, result, _("Error"), wx.OK|wx.ICON_ERROR)
@@ -665,7 +666,7 @@ class objdictedit(wx.Frame, NodeEditorTemplate):
             filepath = dialog.GetPath()
             if os.path.isfile(filepath):
                 result = self.Manager.ImportCurrentFromEDSFile(filepath)
-                if isinstance(result, (IntType, LongType)):
+                if isinstance(result, (int)):
                     new_editingpanel = EditingPanel(self.FileOpened, self, self.Manager)
                     new_editingpanel.SetIndex(result)
                     self.FileOpened.AddPage(new_editingpanel, "")
@@ -711,13 +712,13 @@ class objdictedit(wx.Frame, NodeEditorTemplate):
         dialog.Destroy()
 
     def OnExportCMenu(self, event):
-        dialog = wx.FileDialog(self, _("Choose a file"), os.getcwd(), self.Manager.GetCurrentNodeInfos()[0],  _("CANFestival C files (*.c)|*.c|All files|*.*"), wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT|wx.FD_CHANGE_DIR)
+        dialog = wx.FileDialog(self, _("Choose a file"), os.getcwd(), self.Manager.GetCurrentNodeInfos()[0],  _("CANFestival CPP files (*.cpp)|*.cpp|All files|*.*"), wx.FD_SAVE|wx.FD_OVERWRITE_PROMPT|wx.FD_CHANGE_DIR)
         if dialog.ShowModal() == wx.ID_OK:
             filepath = dialog.GetPath()
             if os.path.isdir(os.path.dirname(filepath)):
                 path, extend = os.path.splitext(filepath)
                 if extend in ("", "."):
-                    filepath = path + ".c"
+                    filepath = path + ".cpp"
                 result = self.Manager.ExportCurrentToCFile(filepath)
                 if not result:
                     message = wx.MessageDialog(self, _("Export successful"), _("Information"), wx.OK|wx.ICON_INFORMATION)
@@ -790,7 +791,7 @@ def get_last_traceback(tb):
 
 
 def format_namespace(d, indent='    '):
-    return '\n'.join(['%s%s: %s' % (indent, k, repr(v)[:10000]) for k, v in d.iteritems()])
+    return '\n'.join(['%s%s: %s' % (indent, k, repr(v)[:10000]) for k, v in d.items()])
 
 
 ignored_exceptions = [] # a problem with a line in a module is only reported once per session
@@ -828,7 +829,7 @@ def AddExceptHook(path, app_version='[No version]'):#, ignored_exceptions=[]):
                         info['self'] = format_namespace(exception_locals['self'].__dict__)
                 
                 output = open(path+os.sep+"bug_report_"+info['date'].replace(':','-').replace(' ','_')+".txt",'w')
-                lst = info.keys()
+                lst = list(info.keys())
                 lst.sort()
                 for a in lst:
                     output.write(a+":\n"+str(info[a])+"\n\n")

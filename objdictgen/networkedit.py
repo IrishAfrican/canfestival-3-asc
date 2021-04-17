@@ -30,8 +30,8 @@ __version__ = "$Revision: 1.27 $"
 
 if __name__ == '__main__':
     def usage():
-        print _("\nUsage of networkedit.py :")
-        print "\n   %s [Projectpath]\n"%sys.argv[0]
+        print(_("\nUsage of networkedit.py :"))
+        print("\n   %s [Projectpath]\n"%sys.argv[0])
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
@@ -59,7 +59,7 @@ ScriptDirectory = os.path.split(os.path.realpath(__file__))[0]
 
 # Import module for internationalization
 import gettext
-import __builtin__
+import builtins
 
 # Get folder containing translation files
 localedir = os.path.join(ScriptDirectory,"locale")
@@ -69,17 +69,17 @@ langid = wx.LANGUAGE_DEFAULT
 domain = "objdictgen"
 
 # Define locale for wx
-loc = __builtin__.__dict__.get('loc', None)
+loc = builtins.__dict__.get('loc', None)
 if loc is None:
     loc = wx.Locale(langid)
-    __builtin__.__dict__['loc'] = loc
+    builtins.__dict__['loc'] = loc
 # Define location for searching translation files
 loc.AddCatalogLookupPathPrefix(localedir)
 # Define locale domain
 loc.AddCatalog(domain)
 
 if __name__ == '__main__':
-    __builtin__.__dict__['_'] = wx.GetTranslation
+    builtins.__dict__['_'] = wx.GetTranslation
 
 from nodelist import *
 from nodemanager import *
@@ -186,18 +186,18 @@ class networkedit(wx.Frame, NetworkEditorTemplate):
         parent.Append(menu=self.HelpMenu, title=_('Help'))
 
     def _init_coll_FileMenu_Items(self, parent):
-        parent.Append(helpString='', id=wx.ID_NEW,
-              kind=wx.ITEM_NORMAL, item=_('New\tCTRL+N'))
-        parent.Append(helpString='', id=wx.ID_OPEN,
-              kind=wx.ITEM_NORMAL, item=_('Open\tCTRL+O'))
-        parent.Append(helpString='', id=wx.ID_CLOSE,
-              kind=wx.ITEM_NORMAL, item=_('Close\tCTRL+W'))
+        parent.Append(help='', id=wx.ID_NEW,
+              kind=wx.ITEM_NORMAL, text=_('New\tCTRL+N'))
+        parent.Append(help='', id=wx.ID_OPEN,
+              kind=wx.ITEM_NORMAL, text=_('Open\tCTRL+O'))
+        parent.Append(help='', id=wx.ID_CLOSE,
+              kind=wx.ITEM_NORMAL, text=_('Close\tCTRL+W'))
         parent.AppendSeparator()
-        parent.Append(helpString='', id=wx.ID_SAVE,
-              kind=wx.ITEM_NORMAL, item=_('Save\tCTRL+S'))
+        parent.Append(help='', id=wx.ID_SAVE,
+              kind=wx.ITEM_NORMAL, text=_('Save\tCTRL+S'))
         parent.AppendSeparator()
-        parent.Append(helpString='', id=wx.ID_EXIT,
-              kind=wx.ITEM_NORMAL, item=_('Exit'))
+        parent.Append(help='', id=wx.ID_EXIT,
+              kind=wx.ITEM_NORMAL, text=_('Exit'))
         self.Bind(wx.EVT_MENU, self.OnNewProjectMenu, id=wx.ID_NEW)
         self.Bind(wx.EVT_MENU, self.OnOpenProjectMenu, id=wx.ID_OPEN)
         self.Bind(wx.EVT_MENU, self.OnCloseProjectMenu, id=wx.ID_CLOSE)
@@ -205,35 +205,35 @@ class networkedit(wx.Frame, NetworkEditorTemplate):
         self.Bind(wx.EVT_MENU, self.OnQuitMenu, id=wx.ID_EXIT)
 
     def _init_coll_NetworkMenu_Items(self, parent):
-        parent.Append(helpString='', id=wx.ID_ADD,
-              kind=wx.ITEM_NORMAL, item=_('Add Slave Node'))
-        parent.Append(helpString='', id=wx.ID_DELETE,
-              kind=wx.ITEM_NORMAL, item=_('Remove Slave Node'))
+        parent.Append(help='', id=wx.ID_ADD,
+              kind=wx.ITEM_NORMAL, text=_('Add Slave Node'))
+        parent.Append(help='', id=wx.ID_DELETE,
+              kind=wx.ITEM_NORMAL, text=_('Remove Slave Node'))
         parent.AppendSeparator()
-        parent.Append(helpString='', id=ID_NETWORKEDITNETWORKMENUBUILDMASTER,
-              kind=wx.ITEM_NORMAL, item=_('Build Master Dictionary'))
+        parent.Append(help='', id=ID_NETWORKEDITNETWORKMENUBUILDMASTER,
+              kind=wx.ITEM_NORMAL, text=_('Build Master Dictionary'))
         self.Bind(wx.EVT_MENU, self.OnAddSlaveMenu, id=wx.ID_ADD)
         self.Bind(wx.EVT_MENU, self.OnRemoveSlaveMenu, id=wx.ID_DELETE)
 ##        self.Bind(wx.EVT_MENU, self.OnBuildMasterMenu,
 ##              id=ID_NETWORKEDITNETWORKMENUBUILDMASTER)
 
     def _init_coll_EditMenu_Items(self, parent):
-        parent.Append(helpString='', id=wx.ID_REFRESH,
-              kind=wx.ITEM_NORMAL, item=_('Refresh\tCTRL+R'))
+        parent.Append(help='', id=wx.ID_REFRESH,
+              kind=wx.ITEM_NORMAL, text=_('Refresh\tCTRL+R'))
         parent.AppendSeparator()
-        parent.Append(helpString='', id=wx.ID_UNDO,
-              kind=wx.ITEM_NORMAL, item=_('Undo\tCTRL+Z'))
-        parent.Append(helpString='', id=wx.ID_REDO,
-              kind=wx.ITEM_NORMAL, item=_('Redo\tCTRL+Y'))
+        parent.Append(help='', id=wx.ID_UNDO,
+              kind=wx.ITEM_NORMAL, text=_('Undo\tCTRL+Z'))
+        parent.Append(help='', id=wx.ID_REDO,
+              kind=wx.ITEM_NORMAL, text=_('Redo\tCTRL+Y'))
         parent.AppendSeparator()
-        parent.Append(helpString='', id=ID_NETWORKEDITEDITMENUNODEINFOS,
-              kind=wx.ITEM_NORMAL, item=_('Node infos'))
-        parent.Append(helpString='', id=ID_NETWORKEDITEDITMENUDS301PROFILE,
-              kind=wx.ITEM_NORMAL, item=_('DS-301 Profile'))
-        parent.Append(helpString='', id=ID_NETWORKEDITEDITMENUDS302PROFILE,
-              kind=wx.ITEM_NORMAL, item=_('DS-302 Profile'))
-        parent.Append(helpString='', id=ID_NETWORKEDITEDITMENUOTHERPROFILE,
-              kind=wx.ITEM_NORMAL, item=_('Other Profile'))
+        parent.Append(help='', id=ID_NETWORKEDITEDITMENUNODEINFOS,
+              kind=wx.ITEM_NORMAL, text=_('Node infos'))
+        parent.Append(help='', id=ID_NETWORKEDITEDITMENUDS301PROFILE,
+              kind=wx.ITEM_NORMAL, text=_('DS-301 Profile'))
+        parent.Append(help='', id=ID_NETWORKEDITEDITMENUDS302PROFILE,
+              kind=wx.ITEM_NORMAL, text=_('DS-302 Profile'))
+        parent.Append(help='', id=ID_NETWORKEDITEDITMENUOTHERPROFILE,
+              kind=wx.ITEM_NORMAL, text=_('Other Profile'))
         self.Bind(wx.EVT_MENU, self.OnRefreshMenu, id=wx.ID_REFRESH)
         self.Bind(wx.EVT_MENU, self.OnUndoMenu, id=wx.ID_UNDO)
         self.Bind(wx.EVT_MENU, self.OnRedoMenu, id=wx.ID_REDO)
@@ -247,18 +247,18 @@ class networkedit(wx.Frame, NetworkEditorTemplate):
               id=ID_NETWORKEDITEDITMENUOTHERPROFILE)
 
     def _init_coll_AddMenu_Items(self, parent):
-        parent.Append(helpString='', id=ID_NETWORKEDITADDMENUSDOSERVER,
-              kind=wx.ITEM_NORMAL, item=_('SDO Server'))
-        parent.Append(helpString='', id=ID_NETWORKEDITADDMENUSDOCLIENT,
-              kind=wx.ITEM_NORMAL, item=_('SDO Client'))
-        parent.Append(helpString='', id=ID_NETWORKEDITADDMENUPDOTRANSMIT,
-              kind=wx.ITEM_NORMAL, item=_('PDO Transmit'))
-        parent.Append(helpString='', id=ID_NETWORKEDITADDMENUPDORECEIVE,
-              kind=wx.ITEM_NORMAL, item=_('PDO Receive'))
-        parent.Append(helpString='', id=ID_NETWORKEDITADDMENUMAPVARIABLE,
-              kind=wx.ITEM_NORMAL, item=_('Map Variable'))
-        parent.Append(helpString='', id=ID_NETWORKEDITADDMENUUSERTYPE,
-              kind=wx.ITEM_NORMAL, item=_('User Type'))
+        parent.Append(help='', id=ID_NETWORKEDITADDMENUSDOSERVER,
+              kind=wx.ITEM_NORMAL, text=_('SDO Server'))
+        parent.Append(help='', id=ID_NETWORKEDITADDMENUSDOCLIENT,
+              kind=wx.ITEM_NORMAL, text=_('SDO Client'))
+        parent.Append(help='', id=ID_NETWORKEDITADDMENUPDOTRANSMIT,
+              kind=wx.ITEM_NORMAL, text=_('PDO Transmit'))
+        parent.Append(help='', id=ID_NETWORKEDITADDMENUPDORECEIVE,
+              kind=wx.ITEM_NORMAL, text=_('PDO Receive'))
+        parent.Append(help='', id=ID_NETWORKEDITADDMENUMAPVARIABLE,
+              kind=wx.ITEM_NORMAL, text=_('Map Variable'))
+        parent.Append(help='', id=ID_NETWORKEDITADDMENUUSERTYPE,
+              kind=wx.ITEM_NORMAL, text=_('User Type'))
         self.Bind(wx.EVT_MENU, self.OnAddSDOServerMenu,
               id=ID_NETWORKEDITADDMENUSDOSERVER)
         self.Bind(wx.EVT_MENU, self.OnAddSDOClientMenu,
@@ -273,15 +273,15 @@ class networkedit(wx.Frame, NetworkEditorTemplate):
               id=ID_NETWORKEDITADDMENUUSERTYPE)
 
     def _init_coll_HelpMenu_Items(self, parent):
-        parent.Append(helpString='', id=wx.ID_HELP,
-              kind=wx.ITEM_NORMAL, item=_('DS-301 Standard\tF1'))
+        parent.Append(help='', id=wx.ID_HELP,
+              kind=wx.ITEM_NORMAL, text=_('DS-301 Standard\tF1'))
         self.Bind(wx.EVT_MENU, self.OnHelpDS301Menu, id=wx.ID_HELP)
-        parent.Append(helpString='', id=wx.ID_HELP_CONTEXT,
-              kind=wx.ITEM_NORMAL, item=_('CAN Festival Docs\tF2'))
+        parent.Append(help='', id=wx.ID_HELP_CONTEXT,
+              kind=wx.ITEM_NORMAL, text=_('CAN Festival Docs\tF2'))
         self.Bind(wx.EVT_MENU, self.OnHelpCANFestivalMenu, id=wx.ID_HELP_CONTEXT)
         if Html_Window and self.ModeSolo:
-            parent.Append(helpString='', id=wx.ID_ABOUT,
-                  kind=wx.ITEM_NORMAL, item=_('About'))
+            parent.Append(help='', id=wx.ID_ABOUT,
+                  kind=wx.ITEM_NORMAL, text=_('About'))
             self.Bind(wx.EVT_MENU, self.OnAboutMenu, id=wx.ID_ABOUT)
 
     def _init_coll_HelpBar_Fields(self, parent):
@@ -541,13 +541,13 @@ class networkedit(wx.Frame, NetworkEditorTemplate):
                 find_index = True
                 index, subIndex = result
                 result = OpenPDFDocIndex(index, ScriptDirectory)
-                if isinstance(result, (StringType, UnicodeType)):
+                if isinstance(result, (bytes, str)):
                     message = wx.MessageDialog(self, result, _("ERROR"), wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
         if not find_index:
             result = OpenPDFDocIndex(None, ScriptDirectory)
-            if isinstance(result, (StringType, UnicodeType)):
+            if isinstance(result, (bytes, str)):
                 message = wx.MessageDialog(self, result, _("ERROR"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
@@ -630,7 +630,7 @@ def get_last_traceback(tb):
 
 
 def format_namespace(d, indent='    '):
-    return '\n'.join(['%s%s: %s' % (indent, k, repr(v)[:10000]) for k, v in d.iteritems()])
+    return '\n'.join(['%s%s: %s' % (indent, k, repr(v)[:10000]) for k, v in d.items()])
 
 
 ignored_exceptions = [] # a problem with a line in a module is only reported once per session
@@ -668,7 +668,7 @@ def AddExceptHook(path, app_version='[No version]'):#, ignored_exceptions=[]):
                         info['self'] = format_namespace(exception_locals['self'].__dict__)
                 
                 output = open(path+os.sep+"bug_report_"+info['date'].replace(':','-').replace(' ','_')+".txt",'w')
-                lst = info.keys()
+                lst = list(info.keys())
                 lst.sort()
                 for a in lst:
                     output.write(a+":\n"+str(info[a])+"\n\n")
