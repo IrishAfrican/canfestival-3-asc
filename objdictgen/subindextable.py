@@ -260,7 +260,7 @@ class SubindexTable(wx.grid.PyGridTableBase):
             for col in range(self.GetNumberCols()):
                 editor = None
                 renderer = None
-                
+
                 colname = self.GetColLabelValue(col, False)
                 editortype = editors[colname]
                 if editortype == "dcf":
@@ -311,11 +311,15 @@ class SubindexTable(wx.grid.PyGridTableBase):
                         renderer = wx.grid.GridCellStringRenderer()
                 else:
                     grid.SetReadOnly(row, col, True)
-                    
-                grid.SetCellEditor(row, col, editor)
-                grid.SetCellRenderer(row, col, renderer)
+
+                if editor != None:    
+                    grid.SetCellEditor(row, col, editor)
                 
-                grid.SetCellBackgroundColour(row, col, wx.WHITE)
+                if renderer != None:
+                    grid.SetCellRenderer(row, col, renderer)
+                
+                #color = wx.SystemSettings.GetColour(wx.SYS_COLOUR_BACKGROUND)
+                #grid.SetCellBackgroundColour(row, col, color)
     
     def SetData(self, data):
         self.data = data
