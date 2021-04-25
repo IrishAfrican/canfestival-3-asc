@@ -503,7 +503,7 @@ class EditingPanel(wx.SplitterWindow):
 
         self.IndexChoice = wx.ComboBox(choices=[], id=ID_EDITINGPANELINDEXCHOICE,
               name='IndexChoice', parent=self.IndexListPanel, pos=wx.Point(50,
-              0), size=wx.Size(-1, 30), style=wx.CB_READONLY)
+              0), size=wx.DefaultSize, style=wx.CB_READONLY)
 
         self._init_sizers()
 

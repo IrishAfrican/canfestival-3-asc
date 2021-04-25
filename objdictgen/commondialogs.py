@@ -481,7 +481,7 @@ class UserTypeDialog(wx.Dialog):
 
         self.Type = wx.ComboBox(choices=[], id=ID_USERTYPEDIALOGTYPE,
               name='Type', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 28), style=wx.CB_READONLY)
+              size=wx.DefaultSize, style=wx.CB_READONLY)
         self.Type.Bind(wx.EVT_COMBOBOX, self.OnTypeChoice,
               id=ID_USERTYPEDIALOGTYPE)
 
@@ -713,7 +713,7 @@ class NodeInfosDialog(wx.Dialog):
 
         self.Type = wx.ComboBox(choices=[], id=ID_NODEINFOSDIALOGTYPE,
               name='Type', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 28), style=wx.CB_READONLY)
+              size=wx.DefaultSize, style=wx.CB_READONLY)
 
         self.staticText4 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT4,
               label=_('Default String Size:'), name='staticText4', parent=self,
@@ -911,7 +911,7 @@ class CreateNodeDialog(wx.Dialog):
 
         self.Type = wx.ComboBox(choices=[], id=ID_CREATENODEDIALOGTYPE,
               name='Type', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 28), style=wx.CB_READONLY)
+              size=wx.DefaultSize, style=wx.CB_READONLY)
 
         self.NodeName = wx.TextCtrl(id=ID_CREATENODEDIALOGNAME, name='NodeName',
               parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24), 
@@ -923,7 +923,7 @@ class CreateNodeDialog(wx.Dialog):
 
         self.Profile = wx.ComboBox(choices=[], id=ID_CREATENODEDIALOGPROFILE,
               name='Profile', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 28), style=wx.CB_READONLY)
+              size=wx.DefaultSize, style=wx.CB_READONLY)
         self.Profile.Bind(wx.EVT_COMBOBOX, self.OnProfileChoice,
               id=ID_CREATENODEDIALOGPROFILE)
 
@@ -1174,7 +1174,7 @@ class AddSlaveDialog(wx.Dialog):
 
         self.EDSFile = wx.ComboBox(id=ID_ADDSLAVEDIALOGEDSFILE,
               name='EDSFile', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 28), style=wx.CB_READONLY)
+              size=wx.DefaultSize, style=wx.CB_READONLY)
         
         self.ImportEDS = wx.Button(id=ID_ADDSLAVEDIALOGIMPORTEDS, label=_('Import EDS'),
               name='ImportEDS', parent=self, pos=wx.Point(0, 0),
