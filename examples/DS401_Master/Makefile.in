@@ -35,12 +35,13 @@ PREFIX = SUB_PREFIX
 TARGET = SUB_TARGET
 CAN_DRIVER = SUB_CAN_DRIVER
 TIMERS_DRIVER = SUB_TIMERS_DRIVER
+TARGET_DIR=../../bin/
 
 INCLUDES = -I../../include -I../../include/$(TARGET) -I../../include/$(CAN_DRIVER) -I../../include/$(TIMERS_DRIVER)
 
 MASTER_OBJS = TestMaster.o TestMasterMicroMod.o
 
-OBJS = $(MASTER_OBJS) ../../src/libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
+OBJS = $(MASTER_OBJS) $(TARGET_DIR)libcanfestival.a ../../drivers/$(TARGET)/libcanfestival_$(TARGET).a
 
 all: DS401_Master
 
