@@ -28,17 +28,17 @@ canfestival-objs := $(OBJS)
 
 else
 # Normal Makefile
-CC = SUB_CC
-PROG_CFLAGS = SUB_PROG_CFLAGS
-OS_NAME = SUB_OS_NAME
-ARCH_NAME = SUB_ARCH_NAME
-PREFIX = SUB_PREFIX
-BINUTILS_PREFIX = SUB_BINUTILS_PREFIX
-TARGET = SUB_TARGET
-CAN_DRIVER = SUB_CAN_DRIVER
-TIMERS_DRIVER = SUB_TIMERS_DRIVER
-ENABLE_LSS = SUB_ENABLE_LSS
-ENABLE_SHARED = SUB_ENABLE_SHARED
+CC = arm-none-eabi-gcc
+PROG_CFLAGS =  -fPIC
+OS_NAME = Darwin
+ARCH_NAME = arm
+PREFIX = /usr/arm-none-eabi
+BINUTILS_PREFIX = arm-none-eabi-
+TARGET = cm3_rtos
+CAN_DRIVER = can_
+TIMERS_DRIVER = timers_
+ENABLE_LSS = 0
+ENABLE_SHARED = 
 TARGET_DIR =../bin/
 
 INCLUDES = -I../include -I../include/$(TARGET) -I../include/$(TIMERS_DRIVER) -I../drivers/$(TARGET)
@@ -93,7 +93,7 @@ OBJS += symbols.o
 OBJS += ../drivers/unix/libcanfestival_$(TARGET).o
 EXTRA_CFLAGS := $(shell echo $(INCLUDES) | sed "s:-I:-I$(src)/:g")
 EXTRA_CFLAGS += $(PROG_CFLAGS)
-KERNELDIR := SUB_KERNELDIR
+KERNELDIR := 
 export OBJS
 export EXTRA_CFLAGS
 
@@ -117,7 +117,7 @@ uninstall:
 	rm -rf $(PREFIX)/include/canfestival
 
 else
-CFLAGS = SUB_OPT_CFLAGS
+CFLAGS = $(OPT_CFLAGS)
 
 ifeq ($(TARGET),none)
 canfestival: $(TARGET_DIR)libcanfestival.o

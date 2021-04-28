@@ -43,17 +43,17 @@ ScriptDirectory = os.path.split(__file__)[0]
 
 class CommunicationDialog(wx.Dialog):
     def _init_coll_flexGridSizer1_Items(self, parent):
-        parent.AddSizer(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
-        parent.AddSizer(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
+        parent.Add(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
+        parent.Add(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
 
     def _init_coll_flexGridSizer1_Growables(self, parent):
         parent.AddGrowableCol(0)
         parent.AddGrowableRow(0)
 
     def _init_coll_MainSizer_Items(self, parent):
-        parent.AddSizer(self.LeftGridSizer, 0, border=0, flag=wx.GROW)
-        parent.AddSizer(self.MiddleGridSizer, 0, border=0, flag=wx.GROW)
-        parent.AddSizer(self.RightGridSizer, 0, border=0, flag=wx.GROW)
+        parent.Add(self.LeftGridSizer, 0, border=0, flag=wx.GROW)
+        parent.Add(self.MiddleGridSizer, 0, border=0, flag=wx.GROW)
+        parent.Add(self.RightGridSizer, 0, border=0, flag=wx.GROW)
 
     def _init_coll_MainSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
@@ -61,16 +61,16 @@ class CommunicationDialog(wx.Dialog):
         parent.AddGrowableRow(0)
 
     def _init_coll_LeftGridSizer_Items(self, parent):
-        parent.AddWindow(self.staticText1, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.PossibleIndexes, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText1, 0, border=0, flag=wx.GROW)
+        parent.Add(self.PossibleIndexes, 0, border=0, flag=wx.GROW)
 
     def _init_coll_LeftGridSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
         parent.AddGrowableRow(1)
 
     def _init_coll_MiddleGridSizer_Items(self, parent):
-        parent.AddWindow(self.Select, 0, border=0, flag=wx.ALIGN_BOTTOM)
-        parent.AddWindow(self.Unselect, 0, border=0, flag=wx.ALIGN_TOP)
+        parent.Add(self.Select, 0, border=0, flag=wx.ALIGN_BOTTOM)
+        parent.Add(self.Unselect, 0, border=0, flag=wx.ALIGN_TOP)
 
     def _init_coll_MiddleGridSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
@@ -78,8 +78,8 @@ class CommunicationDialog(wx.Dialog):
         parent.AddGrowableRow(1)
 
     def _init_coll_RightGridSizer_Items(self, parent):
-        parent.AddWindow(self.staticText2, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.CurrentIndexes, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText2, 0, border=0, flag=wx.GROW)
+        parent.Add(self.CurrentIndexes, 0, border=0, flag=wx.GROW)
 
     def _init_coll_RightGridSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
@@ -173,7 +173,7 @@ class CommunicationDialog(wx.Dialog):
         self.PossibleIndexes.Clear()
         self.CurrentIndexes.Clear()
         self.AllList = []
-        for index in self.IndexDictionary.iterkeys():
+        for index in self.IndexDictionary.keys():
             if index not in self.CurrentList:
                 self.AllList.append(index)
         self.AllList.sort()
@@ -232,26 +232,26 @@ class CommunicationDialog(wx.Dialog):
 
 class MapVariableDialog(wx.Dialog):
     def _init_coll_flexGridSizer1_Items(self, parent):
-        parent.AddSizer(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
-        parent.AddSizer(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
+        parent.Add(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
+        parent.Add(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
 
     def _init_coll_flexGridSizer1_Growables(self, parent):
         parent.AddGrowableCol(0)
         parent.AddGrowableRow(0)
 
     def _init_coll_MainSizer_Items(self, parent):
-        parent.AddWindow(self.staticText1, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.staticText2, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Spacer, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Index, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.radioButton1, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Spacer2, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.staticText3, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.radioButton2, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.staticText4, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.IndexName, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.radioButton3, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Number, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText1, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText2, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Spacer, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Index, 0, border=0, flag=wx.GROW)
+        parent.Add(self.radioButton1, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Spacer2, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText3, 0, border=0, flag=wx.GROW)
+        parent.Add(self.radioButton2, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText4, 0, border=0, flag=wx.GROW)
+        parent.Add(self.IndexName, 0, border=0, flag=wx.GROW)
+        parent.Add(self.radioButton3, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Number, 0, border=0, flag=wx.GROW)
         
     def _init_coll_MainSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
@@ -333,7 +333,7 @@ class MapVariableDialog(wx.Dialog):
               size=wx.Size(0, 0), style=wx.TAB_TRAVERSAL)
         
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL)
-        self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.ButtonSizer.GetAffirmativeButton().GetId())
+        self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.GetAffirmativeId())
         
         self._init_sizers()
 
@@ -417,36 +417,36 @@ class MapVariableDialog(wx.Dialog):
 
 class UserTypeDialog(wx.Dialog):
     def _init_coll_flexGridSizer1_Items(self, parent):
-        parent.AddSizer(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
-        parent.AddSizer(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
+        parent.Add(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
+        parent.Add(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
 
     def _init_coll_flexGridSizer1_Growables(self, parent):
         parent.AddGrowableCol(0)
         parent.AddGrowableRow(0)
 
     def _init_coll_MainSizer_Items(self, parent):
-        parent.AddSizer(self.LeftGridSizer, 2, border=5, flag=wx.GROW|wx.RIGHT)
-        parent.AddSizer(self.RightBoxSizer, 3, border=5, flag=wx.GROW|wx.LEFT)
+        parent.Add(self.LeftGridSizer, 2, border=5, flag=wx.GROW|wx.RIGHT)
+        parent.Add(self.RightBoxSizer, 3, border=5, flag=wx.GROW|wx.LEFT)
 
     def _init_coll_LeftGridSizer_Items(self, parent):
-        parent.AddWindow(self.staticText1, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Type, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Spacer, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText1, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Type, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Spacer, 0, border=0, flag=wx.GROW)
 
     def _init_coll_LeftGridSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
         parent.AddGrowableRow(2)
 
     def _init_coll_RightBoxSizer_Items(self, parent):
-        parent.AddSizer(self.RightBoxGridSizer, 0, border=10, flag=wx.GROW|wx.ALL)
+        parent.Add(self.RightBoxGridSizer, 0, border=10, flag=wx.GROW|wx.ALL)
 
     def _init_coll_RightBoxGridSizer_Items(self, parent):
-        parent.AddWindow(self.staticText2, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Min, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.staticText3, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Max, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.staticText4, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Length, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText2, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Min, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText3, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Max, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText4, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Length, 0, border=0, flag=wx.GROW)
         
     def _init_coll_RightBoxGridSizer_Growables(self, parent):
         parent.AddGrowableCol(1)
@@ -481,8 +481,8 @@ class UserTypeDialog(wx.Dialog):
 
         self.Type = wx.ComboBox(choices=[], id=ID_USERTYPEDIALOGTYPE,
               name='Type', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 28), style=wx.CB_READONLY)
-        self.Type.Bind(wx.wx.EVT_COMBOBOX, self.OnTypeChoice,
+              size=wx.DefaultSize, style=wx.CB_READONLY)
+        self.Type.Bind(wx.EVT_COMBOBOX, self.OnTypeChoice,
               id=ID_USERTYPEDIALOGTYPE)
 
         self.Spacer = wx.Panel(id=ID_MAPVARIABLEDIALOGSPACER,
@@ -518,7 +518,7 @@ class UserTypeDialog(wx.Dialog):
               style=wx.TE_RIGHT, value='0')
 
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL)
-        self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.ButtonSizer.GetAffirmativeButton().GetId())
+        self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.GetAffirmativeId())
         
         self._init_sizers()
 
@@ -580,7 +580,7 @@ class UserTypeDialog(wx.Dialog):
     def SetTypeList(self, typedic, type = None):
         self.Type.Clear()
         list = []
-        for index, (name, valuetype) in typedic.iteritems():
+        for index, (name, valuetype) in typedic.items():
             self.TypeDictionary[name] = (index, valuetype)
             list.append((index, name))
         list.sort()
@@ -650,31 +650,32 @@ NODE_TYPES_DICT = dict([(_(node_type), node_type) for node_type in GetNodeTypes(
 
 class NodeInfosDialog(wx.Dialog):
     def _init_coll_flexGridSizer1_Items(self, parent):
-        parent.AddSizer(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
-        parent.AddSizer(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
+        parent.Add(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
+        parent.Add(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
 
     def _init_coll_flexGridSizer1_Growables(self, parent):
         parent.AddGrowableCol(0)
         parent.AddGrowableRow(0)
 
     def _init_coll_MainSizer_Items(self, parent):
-        parent.AddWindow(self.staticText1, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.NodeName, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.staticText2, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.NodeID, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.staticText3, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Type, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.staticText4, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.DefaultStringSize, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.staticText5, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Description, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText1, 0, border=0, flag=wx.GROW)
+        parent.Add(self.NodeName, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText2, 0, border=0, flag=wx.GROW)
+        parent.Add(self.NodeID, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText3, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Type, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText4, 0, border=0, flag=wx.GROW)
+        parent.Add(self.DefaultStringSize, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText5, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Description, 0, border=0, flag=wx.GROW)
 
     def _init_coll_MainSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
 
     def _init_sizers(self):
         self.flexGridSizer1 = wx.FlexGridSizer(cols=1, hgap=0, rows=2, vgap=10)
-        self.MainSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=8, vgap=5)
+        # self.MainSizer = wx.FlexGridSizer(rows=8, cols=1, vgap=5,hgap=0)
+        self.MainSizer = wx.FlexGridSizer(cols=1, vgap=5,hgap=0)
         
         self._init_coll_flexGridSizer1_Items(self.flexGridSizer1)
         self._init_coll_flexGridSizer1_Growables(self.flexGridSizer1)
@@ -686,9 +687,9 @@ class NodeInfosDialog(wx.Dialog):
     def _init_ctrls(self, prnt):
         wx.Dialog.__init__(self, id=ID_NODEINFOSDIALOG,
               name='NodeInfosDialog', parent=prnt, pos=wx.Point(376, 223),
-              size=wx.Size(300, 280), style=wx.DEFAULT_DIALOG_STYLE,
+              size=wx.Size(300, 380), style=wx.DEFAULT_DIALOG_STYLE,
               title=_('Node infos'))
-        self.SetClientSize(wx.Size(300, 280))
+        self.SetClientSize(wx.Size(300, 380))
 
         self.staticText1 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT1,
               label=_('Name:'), name='staticText1', parent=self,
@@ -712,7 +713,7 @@ class NodeInfosDialog(wx.Dialog):
 
         self.Type = wx.ComboBox(choices=[], id=ID_NODEINFOSDIALOGTYPE,
               name='Type', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 28), style=wx.CB_READONLY)
+              size=wx.DefaultSize, style=wx.CB_READONLY)
 
         self.staticText4 = wx.StaticText(id=ID_NODEINFOSDIALOGSTATICTEXT4,
               label=_('Default String Size:'), name='staticText4', parent=self,
@@ -731,15 +732,15 @@ class NodeInfosDialog(wx.Dialog):
               size=wx.Size(0, 24), style=0, value='')
 
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL)
-        self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.ButtonSizer.GetAffirmativeButton().GetId())
+        self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.GetAffirmativeId())
         
         self._init_sizers()
 
     def __init__(self, parent):
         self._init_ctrls(parent)
         
-        self.staticText2.Hide()
-        self.NodeID.Hide()
+        # self.staticText2.Hide()
+        # self.NodeID.Hide()
         
         for node_type in GetNodeTypes():
             self.Type.Append(_(node_type))
@@ -803,60 +804,60 @@ class NodeInfosDialog(wx.Dialog):
 
 class CreateNodeDialog(wx.Dialog):
     def _init_coll_flexGridSizer1_Items(self, parent):
-        parent.AddSizer(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
-        parent.AddSizer(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
+        parent.Add(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
+        parent.Add(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
 
     def _init_coll_flexGridSizer1_Growables(self, parent):
         parent.AddGrowableCol(0)
         parent.AddGrowableRow(0)
 
     def _init_coll_MainSizer_Items(self, parent):
-        parent.AddSizer(self.TopBoxSizer, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.staticText7, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Description, 0, border=0, flag=wx.GROW)
+        parent.Add(self.TopBoxSizer, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText7, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Description, 0, border=0, flag=wx.GROW)
 
     def _init_coll_MainSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
     
     def _init_coll_TopBoxSizer_Items(self, parent):
-        parent.AddSizer(self.LeftBoxSizer, 1, border=10, flag=wx.GROW|wx.RIGHT)
-        parent.AddSizer(self.RightGridSizer, 1, border=10, flag=wx.GROW|wx.LEFT)
+        parent.Add(self.LeftBoxSizer, 1, border=10, flag=wx.GROW|wx.RIGHT)
+        parent.Add(self.RightGridSizer, 1, border=10, flag=wx.GROW|wx.LEFT)
     
     def _init_coll_LeftBoxSizer_Items(self, parent):
-        parent.AddWindow(self.staticText1, 0, border=5, flag=wx.GROW|wx.BOTTOM)
-        parent.AddWindow(self.Type, 0, border=10, flag=wx.GROW|wx.BOTTOM)
-        parent.AddWindow(self.staticText2, 0, border=5, flag=wx.GROW|wx.BOTTOM)
-        parent.AddWindow(self.NodeName, 0, border=10, flag=wx.GROW|wx.BOTTOM)
-        parent.AddWindow(self.staticText3, 0, border=5, flag=wx.GROW|wx.BOTTOM)
-        parent.AddWindow(self.NodeID, 0, border=10, flag=wx.GROW|wx.BOTTOM)
-        parent.AddWindow(self.staticText4, 0, border=5, flag=wx.GROW|wx.BOTTOM)
-        parent.AddWindow(self.Profile, 0, border=20, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.staticText1, 0, border=5, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.Type, 0, border=10, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.staticText2, 0, border=5, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.NodeName, 0, border=10, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.staticText3, 0, border=5, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.NodeID, 0, border=10, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.staticText4, 0, border=5, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.Profile, 0, border=20, flag=wx.GROW|wx.BOTTOM)
 
     def _init_coll_RightGridSizer_Items(self, parent):
-        parent.AddSizer(self.RightTopGridSizer, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Spacer, 0, border=0, flag=wx.GROW)
-        parent.AddSizer(self.RightBottomGridSizer, 0, border=0, flag=wx.GROW)
+        parent.Add(self.RightTopGridSizer, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Spacer, 0, border=0, flag=wx.GROW)
+        parent.Add(self.RightBottomGridSizer, 0, border=0, flag=wx.GROW)
 
     def _init_coll_RightGridSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
         parent.AddGrowableRow(1)
 
     def _init_coll_RightTopGridSizer_Items(self, parent):
-        parent.AddWindow(self.staticText5, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.NMT_None, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.NMT_NodeGuarding, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.NMT_Heartbeat, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText5, 0, border=0, flag=wx.GROW)
+        parent.Add(self.NMT_None, 0, border=0, flag=wx.GROW)
+        parent.Add(self.NMT_NodeGuarding, 0, border=0, flag=wx.GROW)
+        parent.Add(self.NMT_Heartbeat, 0, border=0, flag=wx.GROW)
         
     def _init_coll_RightTopGridSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
         
     def _init_coll_RightBottomGridSizer_Items(self, parent):
-        parent.AddWindow(self.staticText6, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.DS302, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.GenSYNC, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.Emergency, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.SaveConfig, 0, border=0, flag=wx.GROW)
-        parent.AddWindow(self.StoreEDS, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText6, 0, border=0, flag=wx.GROW)
+        parent.Add(self.DS302, 0, border=0, flag=wx.GROW)
+        parent.Add(self.GenSYNC, 0, border=0, flag=wx.GROW)
+        parent.Add(self.Emergency, 0, border=0, flag=wx.GROW)
+        parent.Add(self.SaveConfig, 0, border=0, flag=wx.GROW)
+        parent.Add(self.StoreEDS, 0, border=0, flag=wx.GROW)
         
     def _init_coll_RightBottomGridSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
@@ -910,7 +911,7 @@ class CreateNodeDialog(wx.Dialog):
 
         self.Type = wx.ComboBox(choices=[], id=ID_CREATENODEDIALOGTYPE,
               name='Type', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 28), style=wx.CB_READONLY)
+              size=wx.DefaultSize, style=wx.CB_READONLY)
 
         self.NodeName = wx.TextCtrl(id=ID_CREATENODEDIALOGNAME, name='NodeName',
               parent=self, pos=wx.Point(0, 0), size=wx.Size(0, 24), 
@@ -922,7 +923,7 @@ class CreateNodeDialog(wx.Dialog):
 
         self.Profile = wx.ComboBox(choices=[], id=ID_CREATENODEDIALOGPROFILE,
               name='Profile', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 28), style=wx.CB_READONLY)
+              size=wx.DefaultSize, style=wx.CB_READONLY)
         self.Profile.Bind(wx.EVT_COMBOBOX, self.OnProfileChoice,
               id=ID_CREATENODEDIALOGPROFILE)
 
@@ -990,15 +991,15 @@ class CreateNodeDialog(wx.Dialog):
               size=wx.Size(0, 0), style=wx.TAB_TRAVERSAL)
 
         self.ButtonSizer = self.CreateButtonSizer(buttons)
-        self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.ButtonSizer.GetAffirmativeButton().GetId())
+        self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.GetAffirmativeId())
         
         self._init_sizers()
 
     def __init__(self, parent,buttons=wx.OK|wx.CANCEL):
         self._init_ctrls(parent,buttons)
         
-        self.staticText3.Hide()
-        self.NodeID.Hide()
+        # self.staticText3.Hide()
+        # self.NodeID.Hide()
         
         self.NodeID.SetValue("0x00")
         for node_type in GetNodeTypes():
@@ -1081,7 +1082,7 @@ class CreateNodeDialog(wx.Dialog):
 
     def OnProfileChoice(self, event):
         if self.Profile.GetStringSelection() == _("Other"):
-            dialog = wx.FileDialog(self, _("Choose a file"), self.Directory, "",  _("OD Profile files (*.prf)|*.prf|All files|*.*"), wx.OPEN|wx.CHANGE_DIR)
+            dialog = wx.FileDialog(self, _("Choose a file"), self.Directory, "",  _("OD Profile files (*.prf)|*.prf|All files|*.*"))
             dialog.ShowModal()
             filepath = dialog.GetPath()
             dialog.Destroy()
@@ -1108,24 +1109,24 @@ class CreateNodeDialog(wx.Dialog):
 
 class AddSlaveDialog(wx.Dialog):
     def _init_coll_flexGridSizer1_Items(self, parent):
-        parent.AddSizer(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
-        parent.AddSizer(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
+        parent.Add(self.MainSizer, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
+        parent.Add(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
 
     def _init_coll_flexGridSizer1_Growables(self, parent):
         parent.AddGrowableCol(0)
         parent.AddGrowableRow(0)
 
     def _init_coll_MainSizer_Items(self, parent):
-        parent.AddWindow(self.staticText1, 0, border=5, flag=wx.GROW|wx.BOTTOM)
-        parent.AddWindow(self.SlaveName, 0, border=10, flag=wx.GROW|wx.BOTTOM)
-        parent.AddWindow(self.staticText2, 0, border=5, flag=wx.GROW|wx.BOTTOM)
-        parent.AddWindow(self.SlaveNodeID, 0, border=10, flag=wx.GROW|wx.BOTTOM)
-        parent.AddWindow(self.staticText3, 0, border=5, flag=wx.GROW|wx.BOTTOM)
-        parent.AddSizer(self.BottomSizer, 0, border=0, flag=wx.GROW)
+        parent.Add(self.staticText1, 0, border=5, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.SlaveName, 0, border=10, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.staticText2, 0, border=5, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.SlaveNodeID, 0, border=10, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.staticText3, 0, border=5, flag=wx.GROW|wx.BOTTOM)
+        parent.Add(self.BottomSizer, 0, border=0, flag=wx.GROW)
 
     def _init_coll_BottomSizer_Items(self, parent):
-        parent.AddWindow(self.EDSFile, 0, border=4, flag=wx.GROW|wx.TOP|wx.BOTTOM)
-        parent.AddWindow(self.ImportEDS, 0, border=0, flag=0)
+        parent.Add(self.EDSFile, 0, border=4, flag=wx.GROW|wx.TOP|wx.BOTTOM)
+        parent.Add(self.ImportEDS, 0, border=0, flag=0)
 
     def _init_coll_BottomSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
@@ -1173,7 +1174,7 @@ class AddSlaveDialog(wx.Dialog):
 
         self.EDSFile = wx.ComboBox(id=ID_ADDSLAVEDIALOGEDSFILE,
               name='EDSFile', parent=self, pos=wx.Point(0, 0),
-              size=wx.Size(0, 28), style=wx.CB_READONLY)
+              size=wx.DefaultSize, style=wx.CB_READONLY)
         
         self.ImportEDS = wx.Button(id=ID_ADDSLAVEDIALOGIMPORTEDS, label=_('Import EDS'),
               name='ImportEDS', parent=self, pos=wx.Point(0, 0),
@@ -1182,7 +1183,7 @@ class AddSlaveDialog(wx.Dialog):
               id=ID_ADDSLAVEDIALOGIMPORTEDS)
         
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL|wx.CENTRE)
-        self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.ButtonSizer.GetAffirmativeButton().GetId())
+        self.Bind(wx.EVT_BUTTON, self.OnOK, id=self.GetAffirmativeId())
     
         self._init_sizers()
 
@@ -1240,7 +1241,7 @@ class AddSlaveDialog(wx.Dialog):
                                os.path.expanduser("~"),
                                "",
                                _("EDS files (*.eds)|*.eds|All files|*.*"),
-                               wx.OPEN)
+                               )
         if dialog.ShowModal() == wx.ID_OK:
             filepath = dialog.GetPath()
         else:
@@ -1263,7 +1264,7 @@ class AddSlaveDialog(wx.Dialog):
     def RefreshEDSFile(self):
         selection = self.EDSFile.GetStringSelection()
         self.EDSFile.Clear()
-        for option in self.NodeList.EDSNodes.keys():
+        for option in list(self.NodeList.EDSNodes.keys()):
             self.EDSFile.Append(option)
         if self.EDSFile.FindString(selection) != wx.NOT_FOUND:
             self.EDSFile.SetStringSelection(selection)
@@ -1418,20 +1419,20 @@ class DCFEntryValuesDialog(wx.Dialog):
                 event(self, function)
     
     def _init_coll_MainSizer_Items(self, parent):
-        parent.AddWindow(self.staticText1, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
-        parent.AddWindow(self.ValuesGrid, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
-        parent.AddSizer(self.ButtonPanelSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.LEFT|wx.RIGHT)
-        parent.AddSizer(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
+        parent.Add(self.staticText1, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
+        parent.Add(self.ValuesGrid, 0, border=20, flag=wx.GROW|wx.TOP|wx.LEFT|wx.RIGHT)
+        parent.Add(self.ButtonPanelSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.LEFT|wx.RIGHT)
+        parent.Add(self.ButtonSizer, 0, border=20, flag=wx.ALIGN_RIGHT|wx.BOTTOM|wx.LEFT|wx.RIGHT)
     
     def _init_coll_MainSizer_Growables(self, parent):
         parent.AddGrowableCol(0)
         parent.AddGrowableRow(1)
     
     def _init_coll_ButtonPanelSizer_Items(self, parent):
-        parent.AddWindow(self.UpButton, 0, border=5, flag=wx.ALL)
-        parent.AddWindow(self.AddButton, 0, border=5, flag=wx.ALL)
-        parent.AddWindow(self.DownButton, 0, border=5, flag=wx.ALL)
-        parent.AddWindow(self.DeleteButton, 0, border=5, flag=wx.ALL)
+        parent.Add(self.UpButton, 0, border=5, flag=wx.ALL)
+        parent.Add(self.AddButton, 0, border=5, flag=wx.ALL)
+        parent.Add(self.DownButton, 0, border=5, flag=wx.ALL)
+        parent.Add(self.DeleteButton, 0, border=5, flag=wx.ALL)
         
     def _init_sizers(self):
         self.MainSizer = wx.FlexGridSizer(cols=1, hgap=0, rows=3, vgap=0)
@@ -1474,22 +1475,22 @@ class DCFEntryValuesDialog(wx.Dialog):
         self.AddButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGADDBUTTON, label=_('Add'),
               name='AddButton', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(72, 32), style=0)
-        self.Bind(wx.EVT_BUTTON, self.OnAddButton, id=ID_DCFENTRYVALUESDIALOGADDBUTTON)
+        self.AddButton.Bind(wx.EVT_BUTTON, self.OnAddButton, id=ID_DCFENTRYVALUESDIALOGADDBUTTON)
 
         self.DeleteButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGDELETEBUTTON, label=_('Delete'),
               name='DeleteButton', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(72, 32), style=0)
-        self.Bind(wx.EVT_BUTTON, self.OnDeleteButton, id=ID_DCFENTRYVALUESDIALOGDELETEBUTTON)
+        self.DeleteButton.Bind(wx.EVT_BUTTON, self.OnDeleteButton, id=ID_DCFENTRYVALUESDIALOGDELETEBUTTON)
 
         self.UpButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGUPBUTTON, label='^',
               name='UpButton', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(32, 32), style=0)
-        self.Bind(wx.EVT_BUTTON, self.OnUpButton, id=ID_DCFENTRYVALUESDIALOGUPBUTTON)
+        self.UpButton.Bind(wx.EVT_BUTTON, self.OnUpButton, id=ID_DCFENTRYVALUESDIALOGUPBUTTON)
 
         self.DownButton = wx.Button(id=ID_DCFENTRYVALUESDIALOGDOWNBUTTON, label='v',
               name='DownButton', parent=self, pos=wx.Point(0, 0),
               size=wx.Size(32, 32), style=0)
-        self.Bind(wx.EVT_BUTTON, self.OnDownButton, id=ID_DCFENTRYVALUESDIALOGDOWNBUTTON)
+        self.DownButton.Bind(wx.EVT_BUTTON, self.OnDownButton, id=ID_DCFENTRYVALUESDIALOGDOWNBUTTON)
 
         self.ButtonSizer = self.CreateButtonSizer(wx.OK|wx.CANCEL|wx.CENTRE)
         
@@ -1566,7 +1567,7 @@ class DCFEntryValuesDialog(wx.Dialog):
         if values != "":
             data = values[4:]
             current = 0
-            for i in xrange(BE_to_LE(values[:4])):
+            for i in range(BE_to_LE(values[:4])):
                 value = {}
                 value["Index"] = BE_to_LE(data[current:current+2])
                 value["Subindex"] = BE_to_LE(data[current+2:current+3])

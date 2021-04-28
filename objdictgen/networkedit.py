@@ -30,8 +30,8 @@ __version__ = "$Revision: 1.27 $"
 
 if __name__ == '__main__':
     def usage():
-        print _("\nUsage of networkedit.py :")
-        print "\n   %s [Projectpath]\n"%sys.argv[0]
+        print(_("\nUsage of networkedit.py :"))
+        print("\n   %s [Projectpath]\n"%sys.argv[0])
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "h", ["help"])
@@ -59,7 +59,7 @@ ScriptDirectory = os.path.split(os.path.realpath(__file__))[0]
 
 # Import module for internationalization
 import gettext
-import __builtin__
+import builtins
 
 # Get folder containing translation files
 localedir = os.path.join(ScriptDirectory,"locale")
@@ -69,17 +69,17 @@ langid = wx.LANGUAGE_DEFAULT
 domain = "objdictgen"
 
 # Define locale for wx
-loc = __builtin__.__dict__.get('loc', None)
+loc = builtins.__dict__.get('loc', None)
 if loc is None:
     loc = wx.Locale(langid)
-    __builtin__.__dict__['loc'] = loc
+    builtins.__dict__['loc'] = loc
 # Define location for searching translation files
 loc.AddCatalogLookupPathPrefix(localedir)
 # Define locale domain
 loc.AddCatalog(domain)
 
 if __name__ == '__main__':
-    __builtin__.__dict__['_'] = wx.GetTranslation
+    builtins.__dict__['_'] = wx.GetTranslation
 
 from nodelist import *
 from nodemanager import *
@@ -541,13 +541,13 @@ class networkedit(wx.Frame, NetworkEditorTemplate):
                 find_index = True
                 index, subIndex = result
                 result = OpenPDFDocIndex(index, ScriptDirectory)
-                if isinstance(result, (StringType, UnicodeType)):
+                if isinstance(result, (bytes, str)):
                     message = wx.MessageDialog(self, result, _("ERROR"), wx.OK|wx.ICON_ERROR)
                     message.ShowModal()
                     message.Destroy()
         if not find_index:
             result = OpenPDFDocIndex(None, ScriptDirectory)
-            if isinstance(result, (StringType, UnicodeType)):
+            if isinstance(result, (bytes, str)):
                 message = wx.MessageDialog(self, result, _("ERROR"), wx.OK|wx.ICON_ERROR)
                 message.ShowModal()
                 message.Destroy()
@@ -630,7 +630,7 @@ def get_last_traceback(tb):
 
 
 def format_namespace(d, indent='    '):
-    return '\n'.join(['%s%s: %s' % (indent, k, repr(v)[:10000]) for k, v in d.iteritems()])
+    return '\n'.join(['%s%s: %s' % (indent, k, repr(v)[:10000]) for k, v in d.items()])
 
 
 ignored_exceptions = [] # a problem with a line in a module is only reported once per session
@@ -668,7 +668,7 @@ def AddExceptHook(path, app_version='[No version]'):#, ignored_exceptions=[]):
                         info['self'] = format_namespace(exception_locals['self'].__dict__)
                 
                 output = open(path+os.sep+"bug_report_"+info['date'].replace(':','-').replace(' ','_')+".txt",'w')
-                lst = info.keys()
+                lst = list(info.keys())
                 lst.sort()
                 for a in lst:
                     output.write(a+":\n"+str(info[a])+"\n\n")

@@ -1,8 +1,10 @@
   
-#ifndef __MAIN_H
-#define __MAIN_H
+#ifndef __CM3_H
+#define __CM3_H
 
+#ifndef STM32F1
 #define STM32F1
+#endif
 
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
@@ -13,7 +15,6 @@
 #include "rtos/FreeRTOS.h"
 #include "rtos/task.h"
 #include "rtos/queue.h"
-#include "rtos/timers.h"
 
 #define PARM_SJW	CAN_BTR_SJW_1TQ
 #define PARM_TS1	CAN_BTR_TS1_6TQ
